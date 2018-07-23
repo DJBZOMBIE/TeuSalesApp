@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "225141830729",
+    "firebase_url": "https://teusales-55b92.firebaseio.com",
+    "project_id": "teusales-55b92",
+    "storage_bucket": "teusales-55b92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225141830729:android:0fe2db452dd9c878",
+        "android_client_info": {
+          "package_name": "com.univas.teusalesapp.teusalesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "225141830729-v1vf10lmrm9dahl155hfrjlo9q78hubg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.univas.teusalesapp.teusalesapp",
+            "certificate_hash": "917bf2a3b4dc24dd1fe9995c33edf0ba47a2265b"
+          }
+        },
+        {
+          "client_id": "225141830729-s2kruq3an896ovcupkabifrkcdk9kf0u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC__IVp5yYZ484qEFnTXrUYzrD_m9f8oSw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "225141830729-s2kruq3an896ovcupkabifrkcdk9kf0u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
