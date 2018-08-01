@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //acesso as opções do navigation
+    //acesso as opções do navigationView
     private void UserMenuSelector(MenuItem item) {
 
         switch (item.getItemId()){
