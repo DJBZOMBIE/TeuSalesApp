@@ -7,6 +7,7 @@
     android:background="@drawable/login"
     tools:context=".RegisterActivity">
 
+
     <ImageView
         android:id="@+id/register_icon"
         android:layout_width="150dp"
