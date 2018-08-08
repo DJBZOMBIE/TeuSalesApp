@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Firebase
         mAuth = FirebaseAuth.getInstance();
+
 
         //inicializar layouts: nav, drawer, toolbar, etc ...
         mTollbar = (Toolbar) findViewById(R.id.main_page_toolbar);
@@ -125,7 +127,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.nav_Logout:
-                Toast.makeText(this,"Logout", Toast.LENGTH_SHORT).show();
+                mAuth.signOut();
+                SendUserToLoginActivity();
                 break;
         }
     }
