@@ -16,6 +16,11 @@ import android.support.v7.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mTollbar;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference UsersRef;
 
 
     @Override
@@ -35,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Firebase
         mAuth = FirebaseAuth.getInstance();
-
+        UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         //inicializar layouts: nav, drawer, toolbar, etc ...
         mTollbar = (Toolbar) findViewById(R.id.main_page_toolbar);
@@ -75,7 +81,34 @@ public class MainActivity extends AppCompatActivity {
 
         if(currentUser == null){
             SendUserToLoginActivity();
+        }else{
+            CheckUserExistence();
         }
+    }
+
+    private void CheckUserExistence() {
+        final String current_user_id = mAuth.getCurrentUser().getUid();
+
+        UsersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.hasChild(current_user_id)){ //se o registro do usuário não existe no "firebase real-time database". OBS: Validação mais importante do APP
+                    SendUserToSetupActivity(); //envia o usuário para setup activity
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void SendUserToSetupActivity() {
+        Intent setupIntent = new Intent(MainActivity.this, SetupActivity.class);
+        setupIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(setupIntent);
+        finish();
     }
 
     private void SendUserToLoginActivity(){

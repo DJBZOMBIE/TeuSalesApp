@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -55,6 +56,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         
+    }
+
+    //se o usuário já esta logado, então envia-o diretamente para o main activity(evita de ir toda hora para setup activity sempre que fizer login)
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser != null){
+            SendUserToMainActivity();
+        }
     }
 
     private void AllowingUserToLogin() {

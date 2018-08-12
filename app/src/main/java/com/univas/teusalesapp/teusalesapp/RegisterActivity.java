@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -47,6 +48,24 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    //se o usuário já esta registrado envia-o direto para o main activity
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser != null){
+            SendUserToMainActivity();
+        }
+    }
+
+    private void SendUserToMainActivity() {
+        Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(mainIntent);
+        finish();
+    }
+
     //criar conta
     private void CreateNewAccount(){
         String email = UserEmail.getText().toString();
@@ -76,9 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-
                                 SendUserToSetupActivity();
-                                
                                 Toast.makeText(RegisterActivity.this, "Sua conta foi criada com sucesso!", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                             }else{
