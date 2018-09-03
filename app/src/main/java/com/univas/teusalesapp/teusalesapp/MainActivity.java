@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         //Firebase
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
-
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         //inicializar layouts: nav, drawer, toolbar, etc ...
@@ -73,16 +72,19 @@ public class MainActivity extends AppCompatActivity {
         NavProfileUserName = (TextView) navView.findViewById(R.id.nav_user_full_name);
 
 
-        //atualizar foto de perfil e nome de usuário na navbar
+        //atualizar foto de perfil e nome de usuário na navbar(puxa do firebase)
         UsersRef.child(currentUserID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    String fullname = dataSnapshot.child("fullname").getValue().toString();
-                    NavProfileUserName.setText(fullname);
-
-                    String image = dataSnapshot.child("profileimage").getValue().toString();
-                    Picasso.with(MainActivity.this).load(image).placeholder(R.drawable.profile).into(NavProfileImage);
+                    if(dataSnapshot.hasChild("fullname")) {
+                        String fullname = dataSnapshot.child("fullname").getValue().toString();
+                        NavProfileUserName.setText(fullname);
+                    }
+                    if(dataSnapshot.hasChild("profileimage")) {
+                        String image = dataSnapshot.child("profileimage").getValue().toString();
+                        Picasso.with(MainActivity.this).load(image).placeholder(R.drawable.profile).into(NavProfileImage);
+                    }
                 }else{
                     Toast.makeText(MainActivity.this, "Nome do perfil não existe...", Toast.LENGTH_SHORT).show();
                 }
