@@ -2,6 +2,7 @@ package com.univas.teusalesapp.teusalesapp;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
 
@@ -28,10 +34,13 @@ public class SetupActivity extends AppCompatActivity {
     private CircleImageView ProfileImage;
     private ProgressDialog loadingBar;
 
+    //Firebase
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef;
+    private StorageReference UserProfileImageRef;
 
     String currentUserID;
+    final static int Gallery_Pick = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,7 @@ public class SetupActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+        UserProfileImageRef = FirebaseStorage.getInstance().getReference().child("profile Images");
 
 
         UserName = (EditText) findViewById(R.id.setup_username);
@@ -57,7 +67,88 @@ public class SetupActivity extends AppCompatActivity {
             }
         });
 
+
+        //abrir galeria de imagem do celular
+        ProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, Gallery_Pick);
+            }
+        });
     }
+
+    //------- inicio crop image -------
+
+    //selecionar/pegar imagem da galeria de fotos do celular
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==Gallery_Pick && resultCode==RESULT_OK && data!=null){
+            Uri ImageUri = data.getData();
+
+            //cortar imagem by ArthurHub(github)
+            CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1, 1)
+                    .start(this);
+        }
+
+        if(requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if(resultCode == RESULT_OK){ //Crop image result
+                loadingBar.setTitle("Foto de Perfil");
+                loadingBar.setMessage("Por favor, aguarde enquanto estamos atualizando sua foto de perfil...");
+                loadingBar.show();
+                loadingBar.setCanceledOnTouchOutside(true);
+
+                Uri resultUri = result.getUri();
+
+                StorageReference filePath = UserProfileImageRef.child(currentUserID + ".jpg"); //referencia a foto do usuario no fire storage
+                filePath.putFile(resultUri); //salva a foto cortada dentro do fire storage
+
+                //add a foto no firebase database (basicamente vai salvar o link da imagem dentro do firabase database)
+                filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(SetupActivity.this, "Profile Image stored sucessfully to firabase storage...", Toast.LENGTH_SHORT).show();
+                            final String downloadUri = task.getResult().getDownloadUrl().toString(); //pega o link da imagem
+
+                            UsersRef.child("profileimage").setValue(downloadUri)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                //depois de salvar a imagem de perfil que foi cortada, mande o usuário de volta para o setupActivity para poder finalizar os dados: username, nome e país.
+                                                Intent selfIntent = new Intent(SetupActivity.this, SetupActivity.class);
+                                                startActivity(selfIntent);
+
+                                                Toast.makeText(SetupActivity.this, "Profile Image stored sucessfully to firabase storage...", Toast.LENGTH_SHORT).show();
+                                                loadingBar.dismiss();
+
+                                            }else{
+                                                String message = task.getException().getMessage();
+                                                Toast.makeText(SetupActivity.this, "Erro: " + message, Toast.LENGTH_SHORT).show();
+                                                loadingBar.dismiss();
+                                            }
+                                        }
+                                    });
+
+                        }
+                    }
+                });
+            }else{
+                Toast.makeText(this, "Erro: Imagem não pode ser cortada. Tente de novo...", Toast.LENGTH_SHORT).show();
+                loadingBar.dismiss();
+            }
+        }
+    }
+    // ---------- fim crop image ----------
 
     private void SaveAccountSetupInformation() {
         String username = UserName.getText().toString();
