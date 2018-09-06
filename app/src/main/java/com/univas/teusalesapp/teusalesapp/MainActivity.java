@@ -1,6 +1,7 @@
 package com.univas.teusalesapp.teusalesapp;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,11 +33,13 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private RecyclerView recyclerView;
+    private RecyclerView postList;
     private Toolbar mTollbar;
 
     private CircleImageView NavProfileImage;
     private TextView NavProfileUserName;
+    private ImageButton AddNewPostButton;
+
 
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef;
@@ -57,8 +61,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mTollbar ); //add tollbar na mainActivity
         getSupportActionBar().setTitle("Home"); //titulo da tollbar
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawable_layout);
+        AddNewPostButton = (ImageButton) findViewById(R.id.add_new_post_button);
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawable_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, drawerLayout, R.string.drawer_open,R.string.drawer_close); //cria toggle
         drawerLayout.addDrawerListener(actionBarDrawerToggle); //add botao(toggle) no toolbar
         actionBarDrawerToggle.syncState();
@@ -105,6 +110,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        AddNewPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SendUserToPostActivity();
+            }
+        });
+
+    }
+
+    private void SendUserToPostActivity() {
+        Intent addNewPostIntent = new Intent (MainActivity.this, PostActivity.class);
+        startActivity(addNewPostIntent);
     }
 
     /*-------- FIREBASE Validations -------- */
@@ -172,6 +189,11 @@ public class MainActivity extends AppCompatActivity {
     private void UserMenuSelector(MenuItem item) {
 
         switch (item.getItemId()){
+
+            case R.id.nav_post:
+                SendUserToPostActivity();
+                break;
+
             case R.id.nav_profile:
                 Toast.makeText(this,"Profile", Toast.LENGTH_SHORT).show();
                 break;
