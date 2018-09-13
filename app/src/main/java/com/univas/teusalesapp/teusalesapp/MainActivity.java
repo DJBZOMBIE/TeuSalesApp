@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         //inicializar layouts: nav, drawer, toolbar, etc ...
         mTollbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mTollbar ); //add tollbar na mainActivity
-        getSupportActionBar().setTitle("Home"); //titulo da tollbar
+        getSupportActionBar().setTitle("Home"); //título da tollbar
 
         AddNewPostButton = (ImageButton) findViewById(R.id.add_new_post_button);
 
