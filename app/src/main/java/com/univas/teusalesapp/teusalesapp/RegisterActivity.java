@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Por favor confirme a sua senha...", Toast.LENGTH_SHORT).show();
         }
         else if(!password.equals(confirmPassword)){
-            Toast.makeText(this, "Sua senha esta diferente...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Sua senha está diferente...", Toast.LENGTH_SHORT).show();
         }else{
             loadingBar.setTitle("Criando Nova Conta");
             loadingBar.setMessage("Por favor, aguarde enquanto criamos a sua conta nova conta...");
