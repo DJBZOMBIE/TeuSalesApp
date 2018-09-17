@@ -74,10 +74,10 @@ public class LoginActivity extends AppCompatActivity {
         String password = UserPassword.getText().toString();
 
         if(TextUtils.isEmpty(email)){
-            Toast.makeText(this, "Por favor escreva seu E-Mail...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Por favor digite seu e-mail...", Toast.LENGTH_SHORT).show();
         }
         else if(TextUtils.isEmpty(password)){
-            Toast.makeText(this, "Por favor escreva seu password...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Por favor digite sua senha...", Toast.LENGTH_SHORT).show();
         }else{
             loadingBar.setTitle("Login");
             loadingBar.setMessage("Por favor, aguarde enquanto fazemos login em sua conta...");
@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 SendUserToMainActivity();
-                                Toast.makeText(LoginActivity.this, "login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                             }else{
                                 String message = task.getException().getMessage();
