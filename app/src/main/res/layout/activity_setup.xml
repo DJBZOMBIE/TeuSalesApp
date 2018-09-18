@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/register"
     tools:context=".SetupActivity">
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/setup_profile_image"
         android:layout_width="200dp"
@@ -15,7 +13,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:src="@drawable/profile" />
-
     <EditText
         android:id="@+id/setup_username"
         android:layout_width="match_parent"
@@ -30,7 +27,6 @@
         android:hint="Username"
         android:inputType="textMultiLine"
         android:padding="14dp" />
-
     <EditText
         android:id="@+id/setup_full_name"
         android:layout_width="match_parent"
@@ -46,7 +42,6 @@
         android:hint="Nome Completo"
         android:inputType="textMultiLine"
         android:padding="14dp" />
-
     <EditText
         android:id="@+id/setup_country_name"
         android:layout_width="match_parent"
@@ -62,7 +57,6 @@
         android:hint="País"
         android:inputType="textMultiLine"
         android:padding="14dp" />
-
     <Button
         android:id="@+id/setup_information_button"
         android:layout_width="200dp"
@@ -76,5 +70,4 @@
         android:textColor="@android:color/background_light"
         android:textSize="20sp"
         android:textStyle="bold" />
-
 </RelativeLayout>

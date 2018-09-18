@@ -112,7 +112,6 @@ public class SetupActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if(requestCode==Gallery_Pick && resultCode==RESULT_OK && data!=null){
             Uri ImageUri = data.getData();
 
@@ -122,7 +121,6 @@ public class SetupActivity extends AppCompatActivity {
                     .setAspectRatio(1, 1)
                     .start(this);
         }
-
         if(requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
