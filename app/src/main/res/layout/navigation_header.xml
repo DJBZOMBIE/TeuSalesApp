@@ -20,14 +20,15 @@
 
     <TextView
         android:id="@+id/nav_user_full_name"
-        android:layout_width="135dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/nav_profile_image"
         android:layout_below="@+id/nav_profile_image"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="5dp"
         android:text="username"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
 </RelativeLayout>

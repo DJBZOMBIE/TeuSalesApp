@@ -96,17 +96,15 @@ public class PostActivity extends AppCompatActivity {
     private void ValidatePostInfo() {
         Description = PostDescription.getText().toString();
         if(ImageUri == null){
-            Toast.makeText(this, "Por favor selecione uma imagem para postar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Por favor, selecione uma imagem para postar", Toast.LENGTH_SHORT).show();
         }
         else if(TextUtils.isEmpty(Description)){ //se a descrição do post estiver vazia
-            Toast.makeText(this, "Por favor escreva algo para postar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Por favor, digite algo para postar", Toast.LENGTH_SHORT).show();
         }else{
-
             loadingBar.setTitle("Add Novo Post");
             loadingBar.setMessage("Por favor, aguarde enquanto estamos atualizando sua nova postagem...");
             loadingBar.show();
             loadingBar.setCanceledOnTouchOutside(true);
-
             StoringImageToFirebaseStorage();
         }
     }
@@ -161,7 +159,7 @@ public class PostActivity extends AppCompatActivity {
                     postsMap.put("profileimage", userProfileImage);
                     postsMap.put("fullname", userFullName);
 
-                    PostsRef.child(current_user_id + postRandomName).updateChildren(postsMap) //realiza post! e cria um id unico para o post do usuario
+                    PostsRef.child(current_user_id + postRandomName).updateChildren(postsMap) //realiza post e cria um id único para o post do usuario
                             .addOnCompleteListener(new OnCompleteListener() {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
@@ -170,7 +168,7 @@ public class PostActivity extends AppCompatActivity {
                                         Toast.makeText(PostActivity.this, "Novo post realizado!", Toast.LENGTH_SHORT).show();
                                         loadingBar.dismiss();
                                     }else{
-                                        Toast.makeText(PostActivity.this, "Ocorreu um erro enquanto atualizava sua postagem.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PostActivity.this, "Ocorreu um erro durante a atualização da postagem.", Toast.LENGTH_SHORT).show();
                                         loadingBar.dismiss();
                                     }
                                 }

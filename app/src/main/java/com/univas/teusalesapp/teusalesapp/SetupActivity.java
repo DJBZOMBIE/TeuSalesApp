@@ -127,8 +127,8 @@ public class SetupActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){ //Crop image result
                 loadingBar.setTitle("Foto de Perfil");
                 loadingBar.setMessage("Por favor, aguarde enquanto estamos atualizando sua foto de perfil...");
-                loadingBar.show();
                 loadingBar.setCanceledOnTouchOutside(true);
+                loadingBar.show();
 
                 Uri resultUri = result.getUri();
 
@@ -183,13 +183,13 @@ public class SetupActivity extends AppCompatActivity {
             Toast.makeText(this, "Por Favor digite seu nome de usuário...", Toast.LENGTH_SHORT).show();
         }
         if(TextUtils.isEmpty(fullname)){
-            Toast.makeText(this, "Por Favor digite seu nome de completo...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Por Favor digite seu nome completo...", Toast.LENGTH_SHORT).show();
         }
         if(TextUtils.isEmpty(country)){
             Toast.makeText(this, "Por Favor digite o seu país...", Toast.LENGTH_SHORT).show();
         }else{
             loadingBar.setTitle("Salvar informação");
-            loadingBar.setMessage("Por favor, aguarde enquanto criamos a sua conta nova conta...");
+            loadingBar.setMessage("Por favor, aguarde enquanto criamos a sua nova conta...");
             loadingBar.show();
             loadingBar.setCanceledOnTouchOutside(true);
 
@@ -207,7 +207,7 @@ public class SetupActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task task) {
                     if(task.isSuccessful()){
                         SendUsertToMainActivity();
-                        Toast.makeText(SetupActivity.this, "Conta criada con sucesso!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SetupActivity.this, "Conta criada com sucesso!", Toast.LENGTH_LONG).show();
                         loadingBar.dismiss();
                     }else{
                         String message = task.getException().getMessage();
