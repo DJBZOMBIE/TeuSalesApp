@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/nav_profile_image"
         android:layout_below="@+id/nav_profile_image"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="5dp"
         android:text="username"
         android:textAlignment="center"
