@@ -1,10 +1,14 @@
 package com.univas.teusalesapp.teusalesapp;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,11 +62,18 @@ public class ClickPostActivity extends AppCompatActivity {
 
                    PostDescription.setText(description);
                    Picasso.with(ClickPostActivity.this).load(image).into(PostImage);
-                   //condição para verificar o id do usuario que fez a postagem, se for o id do autor do post, então os botões edit e delete aprecem
+                   //condição para verificar o id do usuario que fez a postagem, se for o id do autor do post, então os botões edit e delete aparecem
                    if(currentUserID.equals(databaseUserID)){
                        DeletePostButton.setVisibility(View.VISIBLE);
                        EditPostButton.setVisibility(View.VISIBLE);
                    }
+
+                   EditPostButton.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View view) {
+                           EditCurrentPost(description);
+                       }
+                   });
                }
             }
 
@@ -79,6 +90,37 @@ public class ClickPostActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //editar postagem
+    private void EditCurrentPost(String description) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ClickPostActivity.this);
+        builder.setTitle("Editar Postagem: ");
+
+        final EditText inputField = new EditText(ClickPostActivity.this);
+        inputField.setText(description);//exibir descrição da postagem antiga
+        builder.setView(inputField);
+
+        //se clicar em atualizar, atualiza o post.
+        builder.setPositiveButton("Atualizar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ClickPostRef.child("description").setValue(inputField.getText().toString());//atualiza post
+                Toast.makeText(ClickPostActivity.this, "Sua postagem foi atualizada com sucesso...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //se clicar em cancelar, cancela o evento.
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        Dialog dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.holo_green_dark);
     }
 
     //deletar post do database
