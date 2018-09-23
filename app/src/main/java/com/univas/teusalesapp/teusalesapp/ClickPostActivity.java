@@ -1,11 +1,13 @@
 package com.univas.teusalesapp.teusalesapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -49,17 +51,19 @@ public class ClickPostActivity extends AppCompatActivity {
         ClickPostRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                description = dataSnapshot.child("description").getValue().toString();
-                image = dataSnapshot.child("postimage").getValue().toString();
-                databaseUserID = dataSnapshot.child("uid").getValue().toString(); //pega o id do usuario que fez a postagem
+               if(dataSnapshot.exists()){
+                   description = dataSnapshot.child("description").getValue().toString();
+                   image = dataSnapshot.child("postimage").getValue().toString();
+                   databaseUserID = dataSnapshot.child("uid").getValue().toString(); //pega o id do usuario que fez a postagem
 
-                PostDescription.setText(description);
-                Picasso.with(ClickPostActivity.this).load(image).into(PostImage);
-                //condição para verificar o id do usuario que fez a postagem, se for o id do autor do post, então os botões edit e delete aprecem
-                if(currentUserID.equals(databaseUserID)){
-                    DeletePostButton.setVisibility(View.VISIBLE);
-                    EditPostButton.setVisibility(View.VISIBLE);
-                }
+                   PostDescription.setText(description);
+                   Picasso.with(ClickPostActivity.this).load(image).into(PostImage);
+                   //condição para verificar o id do usuario que fez a postagem, se for o id do autor do post, então os botões edit e delete aprecem
+                   if(currentUserID.equals(databaseUserID)){
+                       DeletePostButton.setVisibility(View.VISIBLE);
+                       EditPostButton.setVisibility(View.VISIBLE);
+                   }
+               }
             }
 
             @Override
@@ -68,5 +72,26 @@ public class ClickPostActivity extends AppCompatActivity {
             }
         });
 
+        DeletePostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DeleteCurrentPost();
+            }
+        });
+
+    }
+
+    //deletar post do database
+    private void DeleteCurrentPost() {
+        ClickPostRef.removeValue();
+        SendUserToMainActivity();
+        Toast.makeText(this, "Sua postagem foi deletada", Toast.LENGTH_SHORT).show();
+    }
+
+    private void SendUserToMainActivity() {
+        Intent ClickPostIntent = new Intent(ClickPostActivity.this, MainActivity.class);
+        ClickPostIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(ClickPostIntent);
+        finish();
     }
 }
