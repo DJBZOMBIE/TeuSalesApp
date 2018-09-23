@@ -147,6 +147,9 @@ public class MainActivity extends AppCompatActivity {
                 {
                     @Override
                     protected void populateViewHolder(PostsViewHolder viewHolder, Posts model, int position) {
+
+                        final String PostKey = getRef(position).getKey();//pegar a posição do post ao clicar
+
                         //pegar os dados, exemplo: profilename, data, time, etc...
                         viewHolder.setFullname(model.getFullname());
                         viewHolder.setTime(model.getTime());
@@ -154,6 +157,16 @@ public class MainActivity extends AppCompatActivity {
                         viewHolder.setDescription(model.getDescription());
                         viewHolder.setProfileimage(getApplicationContext(), model.getProfileimage());
                         viewHolder.setPostimage(getApplicationContext(), model.getPostimage());
+
+                        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent clickPostIntent = new Intent(MainActivity.this, ClickPostActivity.class);
+                                clickPostIntent.putExtra("PostKey", PostKey);
+                                startActivity(clickPostIntent);
+                            }
+                        });
+
                     }
                 };
         postList.setAdapter(firebaseRecyclerAdapter);
