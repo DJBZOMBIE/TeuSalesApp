@@ -31,11 +31,8 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.univas.teusalesapp.teusalesapp.SetupActivity.Gallery_Pick;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -105,11 +102,6 @@ public class SettingsActivity extends AppCompatActivity {
                         userRelation.setText(myRelationStatus);
                         String myProfileImage = dataSnapshot.child("profileimage").getValue().toString();
                         Picasso.with(SettingsActivity.this).load(myProfileImage).placeholder(R.drawable.profile).into(userProfImage);
-
-
-
-
-
 
                     } catch(Exception e){
                         Log.i(TAG,e.getMessage());

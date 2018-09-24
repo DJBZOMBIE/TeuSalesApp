@@ -63,7 +63,6 @@ public class ProfileActivity extends AppCompatActivity {
                         String myRelationStatus = dataSnapshot.child("relationshipstatus").getValue().toString();
 
                         Picasso.with(ProfileActivity.this).load(myProfileImage).placeholder(R.drawable.profile).into(userProfileImage);
-
                         userName.setText("@" + myUserName);
                         userProfName.setText(myProfileName);
                         userStatus.setText(myProfileStatus);
@@ -78,7 +77,6 @@ public class ProfileActivity extends AppCompatActivity {
                 }
 
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 

@@ -49,8 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-
-
         NeedNewAccountLink = (TextView) findViewById(R.id.register_account_link);
         UserEmail = (EditText) findViewById(R.id.login_email);
         UserPassword = (EditText) findViewById(R.id.login_password);
@@ -154,7 +152,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
     //======= fim login com conta do google =======
 

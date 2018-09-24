@@ -45,7 +45,6 @@ public class PostActivity extends AppCompatActivity {
     private static final int Gallery_Pick = 1;
     private Uri ImageUri;
     private String Description;
-
     private StorageReference PostsImagesRefrence;
     private DatabaseReference UsersRef, PostsRef;
     private FirebaseAuth mAuth;
