@@ -32,7 +32,8 @@
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".ClickPostActivity"></activity>
+        <activity android:name=".ClickPostActivity" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

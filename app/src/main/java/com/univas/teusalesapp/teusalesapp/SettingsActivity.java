@@ -167,7 +167,7 @@ public class SettingsActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-                                                //depois de salvar a imagem de perfil que foi cortada, mande o usuário de volta para o setupActivity para poder finalizar os dados: username, nome e país.
+                                                //depois de salvar a imagem de perfil que foi cortada, mande o usuário de volta para o settingsActivity para poder finalizar os dados: username, nome e país.
                                                 Intent selfIntent = new Intent(SettingsActivity.this, SettingsActivity.class);
                                                 startActivity(selfIntent);
 
