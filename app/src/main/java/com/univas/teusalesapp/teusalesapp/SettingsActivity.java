@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -287,6 +288,17 @@ public class SettingsActivity extends AppCompatActivity {
             });
     }
 
+    //botão de fazer voltar para a mainActivity
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == android.R.id.home){
+            SendUserToMainActivity();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void SendUserToMainActivity() {
         Intent mainIntent = new Intent(SettingsActivity.this, MainActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -295,7 +307,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
+
     public void onBackPressed() {
         super.onBackPressed();
     }
+
 }
