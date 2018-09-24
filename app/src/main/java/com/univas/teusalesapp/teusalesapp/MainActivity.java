@@ -322,12 +322,11 @@ public class MainActivity extends AppCompatActivity {
     private void SendUserToSettingsActivity(){
         Intent SettingIntent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(SettingIntent);
-        finish();
+
     }
 
     private void SendUserToProfileActivity(){
         Intent ProfileIntent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivity(ProfileIntent);
-        finish();
     }
 }
