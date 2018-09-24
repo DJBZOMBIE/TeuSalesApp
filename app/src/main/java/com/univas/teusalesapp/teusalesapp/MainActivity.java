@@ -296,11 +296,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.nav_friends:
-                SendUserToFindFriendsActivity();
+                Toast.makeText(this,"Friends", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.nav_find_friends:
-                Toast.makeText(this,"Find Friends", Toast.LENGTH_SHORT).show();
+                SendUserToFindFriendsActivity();
                 break;
 
             case R.id.nav_messages:
