@@ -74,7 +74,7 @@ public class PostActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar); //importar: android.support.v7.widget.Toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Update Post");
+        getSupportActionBar().setTitle("Adicionar Postagem");
 
 
         SelectPostImage.setOnClickListener(new View.OnClickListener() {

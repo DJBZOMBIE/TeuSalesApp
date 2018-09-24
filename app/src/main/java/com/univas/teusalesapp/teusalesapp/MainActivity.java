@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.nav_friends:
-                Toast.makeText(this,"Friend List", Toast.LENGTH_SHORT).show();
+                SendUserToFindFriendsActivity();
                 break;
 
             case R.id.nav_find_friends:
@@ -322,6 +322,12 @@ public class MainActivity extends AppCompatActivity {
     private void SendUserToSettingsActivity(){
         Intent SettingIntent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(SettingIntent);
+        finish();
+    }
+
+    private void SendUserToFindFriendsActivity(){
+        Intent FindFriendsIntent = new Intent(MainActivity.this, FindFriendsActivity.class);
+        startActivity(FindFriendsIntent);
         finish();
     }
 
