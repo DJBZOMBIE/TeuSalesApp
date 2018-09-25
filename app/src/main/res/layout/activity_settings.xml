@@ -56,11 +56,12 @@
                android:layout_marginRight="10dp"
                android:layout_marginTop="30dp"
                android:background="@drawable/inputs"
+               android:enabled="true"
                android:hint="Nome de usuário"
                android:padding="12dp"
                android:textColor="@android:color/background_dark"
                android:textSize="20sp"
-               android:textStyle="bold"/>
+               android:textStyle="bold" />
 
            <EditText
                android:id="@+id/settings_profile_full_name"
