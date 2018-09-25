@@ -115,9 +115,9 @@ public class PostActivity extends AppCompatActivity {
         SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy"); //data padrão
         saveCurrentDate = currentDate.format(calFordDate.getTime()); //pega data padrao e salva na var saveCurrentDate
 
-        Calendar calFordTime= Calendar.getInstance();
-        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm"); //hora/tempo padrão
-        saveCurrentTime = currentTime.format(calFordDate.getTime());
+        Calendar calFordTime = Calendar.getInstance();
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss"); //hora/tempo padrão
+        saveCurrentTime = currentTime.format(calFordTime.getTime());
 
         postRandomName = saveCurrentDate + saveCurrentTime; //concatena as strings tempo e hora dentro da string postRandomName, onde é gerado um nome unico(id) para a foto que foi postada no aplicativo.
 
