@@ -290,4 +290,8 @@ public class SettingsActivity extends AppCompatActivity {
         finish();
     }
 
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
 }
