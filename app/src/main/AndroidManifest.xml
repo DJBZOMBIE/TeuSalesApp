@@ -36,8 +36,10 @@
             android:parentActivityName=".MainActivity" />
         <activity android:name=".ClickPostActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".FindFriendsActivity"
-            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".FindFriendsActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".CommentsActivity"></activity>
     </application>
 
 </manifest>

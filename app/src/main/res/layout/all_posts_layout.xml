@@ -58,7 +58,7 @@
                         android:id="@+id/text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Última postagem: "
+                        android:text="Último Post:"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="13sp"
                         android:textStyle="bold"/>
@@ -69,7 +69,7 @@
                         android:layout_height="wrap_content"
                         android:text="Data"
                         android:textColor="@android:color/black"
-                        android:textSize="13sp"/>
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/post_time"
