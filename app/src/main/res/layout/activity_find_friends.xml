@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorProfile"
-    tools:context=".FindFriendsActivity">
+    tools:context=".activity.FindFriendsActivity">
 
     <include
         android:id="@+id/find_friends_appbar_layout"

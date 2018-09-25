@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login"
-    tools:context=".PostActivity">
+    tools:context=".activity.PostActivity">
     <include
         android:id="@+id/update_post_page_toolbar"
         layout="@layout/app_bar_layout" />

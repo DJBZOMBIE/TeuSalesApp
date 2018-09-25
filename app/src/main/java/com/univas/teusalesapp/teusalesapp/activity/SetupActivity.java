@@ -1,4 +1,4 @@
-package com.univas.teusalesapp.teusalesapp;
+package com.univas.teusalesapp.teusalesapp.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -26,6 +26,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.univas.teusalesapp.teusalesapp.R;
 
 import java.util.HashMap;
 

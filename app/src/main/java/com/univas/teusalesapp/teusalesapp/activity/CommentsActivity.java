@@ -1,4 +1,4 @@
-package com.univas.teusalesapp.teusalesapp;
+package com.univas.teusalesapp.teusalesapp.activity;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -21,13 +21,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
+import com.univas.teusalesapp.teusalesapp.classes.Comments;
+import com.univas.teusalesapp.teusalesapp.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Random;
 
 public class CommentsActivity extends AppCompatActivity {
 

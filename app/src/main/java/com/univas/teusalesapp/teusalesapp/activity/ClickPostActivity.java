@@ -1,4 +1,4 @@
-package com.univas.teusalesapp.teusalesapp;
+package com.univas.teusalesapp.teusalesapp.activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.univas.teusalesapp.teusalesapp.R;
 
 public class ClickPostActivity extends AppCompatActivity {
 

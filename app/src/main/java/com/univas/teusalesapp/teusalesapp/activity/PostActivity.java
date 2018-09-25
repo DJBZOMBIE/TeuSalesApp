@@ -1,8 +1,7 @@
-package com.univas.teusalesapp.teusalesapp;
+package com.univas.teusalesapp.teusalesapp.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.univas.teusalesapp.teusalesapp.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

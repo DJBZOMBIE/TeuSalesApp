@@ -1,8 +1,7 @@
-package com.univas.teusalesapp.teusalesapp;
+package com.univas.teusalesapp.teusalesapp.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -29,8 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
+import com.univas.teusalesapp.teusalesapp.classes.Posts;
+import com.univas.teusalesapp.teusalesapp.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

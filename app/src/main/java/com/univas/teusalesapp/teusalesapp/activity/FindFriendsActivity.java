@@ -1,4 +1,4 @@
-package com.univas.teusalesapp.teusalesapp;
+package com.univas.teusalesapp.teusalesapp.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
+import com.univas.teusalesapp.teusalesapp.classes.FindFriends;
+import com.univas.teusalesapp.teusalesapp.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

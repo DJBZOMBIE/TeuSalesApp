@@ -1,4 +1,4 @@
-package com.univas.teusalesapp.teusalesapp;
+package com.univas.teusalesapp.teusalesapp.classes;
 
 public class Comments {
     public String comment, date, time, username;

@@ -17,29 +17,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SetupActivity" />
+        <activity android:name=".activity.SetupActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".PostActivity" />
+        <activity android:name=".activity.PostActivity" />
         <activity
-            android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".ClickPostActivity" />
-        <activity android:name=".ProfileActivity" />
+            android:name=".activity.SettingsActivity"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity android:name=".activity.ClickPostActivity" />
+        <activity android:name=".activity.ProfileActivity" />
         <activity
-            android:name=".FindFriendsActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".CommentsActivity"></activity>
+            android:name=".activity.FindFriendsActivity"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity android:name=".activity.CommentsActivity"></activity>
     </application>
 
 </manifest>

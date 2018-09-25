@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/register"
-    tools:context=".SetupActivity">
+    tools:context=".activity.SetupActivity">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/setup_profile_image"
         android:layout_width="200dp"
