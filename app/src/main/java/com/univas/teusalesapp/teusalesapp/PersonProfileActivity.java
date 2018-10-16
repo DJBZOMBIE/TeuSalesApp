@@ -2,6 +2,7 @@ package com.univas.teusalesapp.teusalesapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -24,7 +25,7 @@ public class PersonProfileActivity extends AppCompatActivity {
     private DatabaseReference profileUserRef, usersRef;
     private FirebaseAuth mAuth;
 
-    private String senderUserId, receiverUserId;
+    private String senderUserId, receiverUserId, CURRENT_STATE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +33,14 @@ public class PersonProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_person_profile);
 
         mAuth = FirebaseAuth.getInstance();
+        senderUserId = mAuth.getCurrentUser().getUid(); //id do usuario online no app
 
-        receiverUserId = getIntent().getExtras().get("visit_user_id").toString();
+        receiverUserId = getIntent().getExtras().get("visit_user_id").toString(); //id do usuario que foi selecionado na tela de busca
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         InitializeFields();
 
+        //mostrar informações do usuario
         usersRef.child(receiverUserId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -71,6 +74,24 @@ public class PersonProfileActivity extends AppCompatActivity {
             }
         });
 
+        DeclineFriendRequestButton.setVisibility(View.INVISIBLE);
+        DeclineFriendRequestButton.setEnabled(false);
+
+        //validações dos botoes. Se o id do usuario online for diferente do id do usuario clicado, aparece o botao.
+        if(!senderUserId.equals(receiverUserId)){
+            SendFriendRequestButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SendFriendRequestButton.setEnabled(false);
+                }
+            });
+
+        }else{
+            //se clicar no seu proprio perfil nao aparece os botoes
+            DeclineFriendRequestButton.setVisibility(View.INVISIBLE);
+            SendFriendRequestButton.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     private void InitializeFields() {
@@ -82,7 +103,10 @@ public class PersonProfileActivity extends AppCompatActivity {
         userRelation = (TextView) findViewById(R.id.person_relationship_status);
         userDOB = (TextView) findViewById(R.id.person_dob);
         userProfileImage = (CircleImageView) findViewById(R.id.person_profile_pic);
+
         SendFriendRequestButton = (Button) findViewById(R.id.person_send_friend_request_btn);
         DeclineFriendRequestButton= (Button) findViewById(R.id.person_decline_friend_request_btn);
+
+        CURRENT_STATE = "not_friends";
     }
 }
