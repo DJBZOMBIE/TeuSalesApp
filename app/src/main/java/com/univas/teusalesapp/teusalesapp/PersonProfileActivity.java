@@ -88,7 +88,7 @@ public class PersonProfileActivity extends AppCompatActivity {
         DeclineFriendRequestButton.setVisibility(View.INVISIBLE);
         DeclineFriendRequestButton.setEnabled(false);
 
-        //validações dos botoes. Se o id do usuario online for diferente do id do usuario clicado, aparece os botoes.
+        //validações dos botoes. Se o id do usuario online for diferente do id do usuario clicado, aparece o botao
         if(!senderUserId.equals(receiverUserId)){
             SendFriendRequestButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -103,6 +103,9 @@ public class PersonProfileActivity extends AppCompatActivity {
                     if(CURRENT_STATE.equals("request_received")){ //verificar se o pedido de amizade foi recebido
                         AcceptFriendRequest();
                     }
+                    if(CURRENT_STATE.equals("friends")){
+                        UnFriendAnExistingFriend();
+                    }
                 }
             });
 
@@ -112,6 +115,35 @@ public class PersonProfileActivity extends AppCompatActivity {
             SendFriendRequestButton.setVisibility(View.INVISIBLE);
         }
 
+    }
+
+    //remover amigo (mesmo codigo do CancelFriendsRequest)
+    private void UnFriendAnExistingFriend() {
+        //remover amizade entre os usuarios no BD
+        FriendsRef.child(senderUserId).child(receiverUserId)
+                .removeValue()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            FriendsRef.child(receiverUserId).child(senderUserId)
+                                    .removeValue()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                SendFriendRequestButton.setEnabled(true); //botao clicado
+                                                CURRENT_STATE = "not_friends"; //pedido cancelado
+                                                SendFriendRequestButton.setText("Enviar solicitação de amizade");
+
+                                                DeclineFriendRequestButton.setVisibility(View.INVISIBLE);
+                                                DeclineFriendRequestButton.setEnabled(false);
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                });
     }
 
     //aceitar pedido de amizade
@@ -165,7 +197,7 @@ public class PersonProfileActivity extends AppCompatActivity {
 
     }
 
-    //cancelar solicitação de amizade
+    //cancelar envio/pedido de solicitação de amizade
     private void CancelFriendRequest() {
         //remover pedido de amizade do BD
         FriendRequestRef.child(senderUserId).child(receiverUserId)
@@ -194,7 +226,7 @@ public class PersonProfileActivity extends AppCompatActivity {
                 });
     }
 
-    //alterar texto do botao (enviar pedido/cancelar solicitação de amizade)
+    //alterar texto do botao (enviar pedido/cancelar solicitação de amizade, etc...)
     private void MaintananceofButtons() {
         FriendRequestRef.child(senderUserId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -214,7 +246,34 @@ public class PersonProfileActivity extends AppCompatActivity {
 
                         DeclineFriendRequestButton.setVisibility(View.VISIBLE);
                         DeclineFriendRequestButton.setEnabled(true);
+
+                        //recusar pedido de amizade
+                        DeclineFriendRequestButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                CancelFriendRequest();
+                            }
+                        });
                     }
+                }else{ //se jã sao amigos
+                    FriendsRef.child(senderUserId)
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.hasChild(receiverUserId)){
+                                        CURRENT_STATE = "friends";
+                                        SendFriendRequestButton.setText("Remover amigo");
+
+                                        DeclineFriendRequestButton.setVisibility(View.INVISIBLE);
+                                        DeclineFriendRequestButton.setEnabled(false);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                 }
             }
 
