@@ -92,6 +92,9 @@ public class PersonProfileActivity extends AppCompatActivity {
                     if(CURRENT_STATE.equals("not_friends")){
                         SendFriendRequestToaPerson();
                     }
+                    if(CURRENT_STATE.equals("request_sent")){
+                        CancelFriendRequest();
+                    }
                 }
             });
 
@@ -103,6 +106,35 @@ public class PersonProfileActivity extends AppCompatActivity {
 
     }
 
+    //cancelar solicitação de amizade
+    private void CancelFriendRequest() {
+        //remover pedido de amizade do BD
+        FriendRequestRef.child(senderUserId).child(receiverUserId)
+                .removeValue()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            FriendRequestRef.child(receiverUserId).child(senderUserId)
+                                    .removeValue()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                SendFriendRequestButton.setEnabled(true); //botao clicado
+                                                CURRENT_STATE = "not_friends"; //pedido cancelado
+                                                SendFriendRequestButton.setText("Enviar solicitação de amizade");
+
+                                                DeclineFriendRequestButton.setVisibility(View.INVISIBLE);
+                                                DeclineFriendRequestButton.setEnabled(false);
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                });
+    }
+
     //alterar texto do botao (enviar pedido/cancelar solicitação de amizade)
     private void MaintananceofButtons() {
         FriendRequestRef.child(senderUserId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -112,7 +144,7 @@ public class PersonProfileActivity extends AppCompatActivity {
                     String request_type = dataSnapshot.child(receiverUserId).child("request_type").getValue().toString();
                     if(request_type.equals("sent")){
                         CURRENT_STATE = "request_sent";
-                        SendFriendRequestButton.setText("Cancelar Solicitação");
+                        SendFriendRequestButton.setText("Cancelar solicitação");
 
                         DeclineFriendRequestButton.setVisibility(View.INVISIBLE);
                         DeclineFriendRequestButton.setEnabled(false);
