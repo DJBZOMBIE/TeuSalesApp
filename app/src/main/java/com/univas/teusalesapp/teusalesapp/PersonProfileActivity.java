@@ -129,13 +129,15 @@ public class PersonProfileActivity extends AppCompatActivity {
 
     //enviar solicitação de amizade
     private void SendFriendRequestToaPerson() {
-        FriendRequestRef.child(senderUserId).child(receiverUserId) //envia pedido
+        //salva no banco a informação: usuario envia pedido
+        FriendRequestRef.child(senderUserId).child(receiverUserId)
                 .child("request_type").setValue("sent")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                          if(task.isSuccessful()){
-                             FriendRequestRef.child(receiverUserId).child(senderUserId) //recebe pedido
+                             //salva no banco a informação: usuario/amigo recebe pedido
+                             FriendRequestRef.child(receiverUserId).child(senderUserId)
                                      .child("request_type").setValue("received")
                                      .addOnCompleteListener(new OnCompleteListener<Void>() {
                                          @Override
