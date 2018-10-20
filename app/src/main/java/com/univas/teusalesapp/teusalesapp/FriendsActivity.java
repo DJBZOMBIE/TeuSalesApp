@@ -1,6 +1,9 @@
 package com.univas.teusalesapp.teusalesapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -70,6 +73,35 @@ public class FriendsActivity extends AppCompatActivity {
                            final String profileImage = dataSnapshot.child("profileimage").getValue().toString();
                            viewHolder.setFullname(userName);
                            viewHolder.setProfileimage(getApplicationContext(), profileImage);
+                           //alert dialog
+                           viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                               @Override
+                               public void onClick(View view) {
+                                   CharSequence options[] = new CharSequence[]{
+                                     userName + "'s Perfil", "Enviar menssagem"
+                                   };
+                                   AlertDialog.Builder builder = new AlertDialog.Builder(FriendsActivity.this);
+                                   builder.setTitle("Selecione uma opção");
+
+                                   builder.setItems(options, new DialogInterface.OnClickListener() {
+                                       @Override
+                                       public void onClick(DialogInterface dialogInterface, int i) {
+                                           //i = é a posição do ponto da tela/alertDialog que foi clicadp
+                                           if(i == 0){
+                                               Intent profileintent = new Intent(FriendsActivity.this, PersonProfileActivity.class);
+                                               profileintent.putExtra("visit_user_id", usersIDs);
+                                               startActivity(profileintent);
+                                           }
+                                           if(i == 1){
+                                               Intent chatintent = new Intent(FriendsActivity.this, ChatActivity.class);
+                                               chatintent.putExtra("visit_user_id", usersIDs);
+                                               startActivity(chatintent);
+                                           }
+                                       }
+                                   });
+                                   builder.show();
+                               }
+                           });
                         }
                     }
 

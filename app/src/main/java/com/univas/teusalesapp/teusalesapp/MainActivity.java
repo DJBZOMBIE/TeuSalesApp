@@ -388,7 +388,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.nav_home:
-                Toast.makeText(this,"Home", Toast.LENGTH_SHORT).show();
+                SendUserToMainActivity();
                 break;
 
             case R.id.nav_friends:
@@ -412,6 +412,12 @@ public class MainActivity extends AppCompatActivity {
                 SendUserToLoginActivity();
                 break;
         }
+    }
+
+    private void SendUserToMainActivity(){
+        Intent HomeIntent = new Intent(MainActivity.this, MainActivity.class);
+        startActivity(HomeIntent);
+
     }
 
     private void SendUserToFriendsActivity(){
