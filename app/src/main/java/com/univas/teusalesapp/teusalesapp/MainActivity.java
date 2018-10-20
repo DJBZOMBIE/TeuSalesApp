@@ -1,12 +1,13 @@
 package com.univas.teusalesapp.teusalesapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,8 +31,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -154,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
                         final String PostKey = getRef(position).getKey();//pegar a posição do post ao clicar
 
+
                         //pegar os dados, exemplo: profilename, data, time, etc...
                         viewHolder.setFullname(model.getFullname());
                         viewHolder.setTime(model.getTime());
@@ -170,17 +170,6 @@ public class MainActivity extends AppCompatActivity {
                                 Intent clickPostIntent = new Intent(MainActivity.this, ClickPostActivity.class);
                                 clickPostIntent.putExtra("PostKey", PostKey);
                                 startActivity(clickPostIntent);
-                            }
-                        });
-
-                        //colocar um alertDialog aqui
-                        viewHolder.alertDialog.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent testandoFoto = new Intent(MainActivity.this,ProfileActivity.class);
-                                testandoFoto.putExtra("PostKey", PostKey);
-                                startActivity(testandoFoto);
-
                             }
                         });
 
@@ -274,6 +263,10 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+        }
+
+        public void getProfileimage() {
+
         }
 
         public void setFullname(String fullname){
