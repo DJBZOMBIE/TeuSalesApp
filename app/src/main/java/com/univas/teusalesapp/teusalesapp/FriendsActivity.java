@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -119,6 +120,18 @@ public class FriendsActivity extends AppCompatActivity {
                         if(dataSnapshot.exists()){
                            final String userName = dataSnapshot.child("fullname").getValue().toString();
                            final String profileImage = dataSnapshot.child("profileimage").getValue().toString();
+                           final String type;
+
+                           //verificar se userSstate existe
+                            if(dataSnapshot.hasChild("userState")){
+                                type = dataSnapshot.child("userState").child("type").getValue().toString(); //recebe status(online/offline)
+                                if(type.equals("online")){
+                                    viewHolder.onlineStatusView.setVisibility(View.VISIBLE);
+                                }else{
+                                    viewHolder.onlineStatusView.setVisibility(View.INVISIBLE);
+                                }
+                            }
+
                            viewHolder.setFullname(userName);
                            viewHolder.setProfileimage(getApplicationContext(), profileImage);
                            //alert dialog
@@ -167,9 +180,11 @@ public class FriendsActivity extends AppCompatActivity {
     //static class para o recyclerView
     public static class FriendsViewHolder extends RecyclerView.ViewHolder{
         View mView;
+        ImageView onlineStatusView;
         public FriendsViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
+            onlineStatusView = (ImageView) itemView.findViewById(R.id.all_user_online_icon);
         }
         public void setProfileimage(Context ctx, String profileimage){
             CircleImageView myImage = (CircleImageView) mView.findViewById(R.id.all_users_profile_image);
