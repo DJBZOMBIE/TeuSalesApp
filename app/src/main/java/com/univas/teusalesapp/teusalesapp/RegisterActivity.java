@@ -95,8 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                SendUserToSetupActivity();
-                                Toast.makeText(RegisterActivity.this, "Sua conta foi criada com sucesso!", Toast.LENGTH_SHORT).show();
+                                SendEmailVerificationMessage();
                                 loadingBar.dismiss();
                             }else{
                                 String message = task.getException().getMessage();
@@ -108,11 +107,32 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    //enviar o usuário para activity de configuração
-    private void SendUserToSetupActivity() {
-        Intent setupIntent = new Intent(RegisterActivity.this, SetupActivity.class);
-        setupIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(setupIntent);
+    //enviar email de verificação para o user
+    private void SendEmailVerificationMessage(){
+        FirebaseUser user = mAuth.getCurrentUser(); //pega o id do user
+        if(user != null){
+            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(RegisterActivity.this, "Cadastro realizado. Foi enviado um link para o seu e-mail, por favor verifique e confirme sua conta...", Toast.LENGTH_SHORT).show();
+                        SendUserToLoginActivity();
+                        mAuth.signOut(); //destroi o processo de login(mAuth.createUserWithEmailAndPassword) realizado no metodo createNewAccount
+                    }else{
+                        String error = task.getException().getMessage();
+                        Toast.makeText(RegisterActivity.this, "Erro: " + error, Toast.LENGTH_SHORT).show();
+                        mAuth.signOut();
+                    }
+                }
+            });
+        }
+    }
+
+    //enviar o usuário para tela de login
+    private void SendUserToLoginActivity() {
+        Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(loginIntent);
         finish();
     }
 }
