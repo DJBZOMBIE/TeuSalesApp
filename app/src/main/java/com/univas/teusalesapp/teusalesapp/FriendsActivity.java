@@ -20,6 +20,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendsActivity extends AppCompatActivity {
@@ -48,6 +53,49 @@ public class FriendsActivity extends AppCompatActivity {
         myFriendList.setLayoutManager(linearLayoutManager);
 
         DisplayAllFriends();
+    }
+
+    //atualizar o status(online/offline) do user
+    public void updateUserStatus(String state){
+        String saveCurrentDate, saveCurrentTime;
+
+        Calendar calForDate = Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy"); //data padrão
+        saveCurrentDate = currentDate.format(calForDate.getTime());
+
+        Calendar calForTime = Calendar.getInstance();
+        SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a"); //data padrão
+        saveCurrentTime = currentTime.format(calForTime.getTime());
+
+        //salvar no database
+        Map currentStateMap = new HashMap();
+        currentStateMap.put("time", saveCurrentTime);
+        currentStateMap.put("date", saveCurrentDate);
+        currentStateMap.put("type", state);
+
+        //cria um novo campo(userState) na tabela Users do BD
+        UsersRef.child(online_user_id).child("userState").updateChildren(currentStateMap);
+    }
+
+    //quando o user acessa a tela de amigos ele fica online
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateUserStatus("online");
+    }
+
+    //quando user minimiza o app, ele fica offline.
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateUserStatus("offline");
+    }
+
+    //se der erro no app
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        updateUserStatus("offline");
     }
 
     // listar todos os amigos
