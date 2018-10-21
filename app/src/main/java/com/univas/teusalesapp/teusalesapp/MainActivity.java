@@ -221,7 +221,6 @@ public class MainActivity extends AppCompatActivity {
         View mView;
 
         ImageButton LikePostButton, CommentPostButton;
-        CircleImageView alertDialog;
         TextView DisplayNoOfLikes;
         int countLikes;
         String currentUserId;
@@ -233,7 +232,6 @@ public class MainActivity extends AppCompatActivity {
 
             LikePostButton = (ImageButton) mView.findViewById(R.id.like_button);
             CommentPostButton = (ImageButton) mView.findViewById(R.id.comment_button);
-            alertDialog = (CircleImageView) mView.findViewById(R.id.post_profile_image);
             DisplayNoOfLikes = (TextView) mView.findViewById(R.id.display_no_of_likes);
 
             LikesRefe = FirebaseDatabase.getInstance().getReference().child("Likes");
@@ -265,9 +263,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        public void getProfileimage() {
-
-        }
 
         public void setFullname(String fullname){
             TextView username = (TextView) mView.findViewById(R.id.post_user_name);
