@@ -23,12 +23,12 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView userName, userProfName, userStatus, userCountry, userGender, userRelation, userDOB;
     private CircleImageView userProfileImage;
 
-    private DatabaseReference profileUserRef, FriendsRef;
+    private DatabaseReference profileUserRef, FriendsRef, PostsRef;
     private FirebaseAuth mAuth;
     private Button MyPosts, MyFriends;
 
     private String currentUserId;
-    private int countFriends = 0;
+    private int countFriends = 0, countPosts = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
         currentUserId = mAuth.getCurrentUser().getUid();
         profileUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
         FriendsRef = FirebaseDatabase.getInstance().getReference().child("Friends");
+        PostsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
 
         userName = (TextView) findViewById(R.id.my_profile_username);
         userProfName = (TextView) findViewById(R.id.my_profile_full_name);
@@ -65,7 +66,27 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        //alterar texto do botao de numeros de amigos
+        //alterar o texto do botao(postagens) com a quantidade de postagens realizadas
+        PostsRef.orderByChild("uid").startAt(currentUserId).endAt(currentUserId + "\uf8ff").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    //se tem postagens
+                    countPosts = (int) dataSnapshot.getChildrenCount();
+                    MyPosts.setText(Integer.toString(countPosts) + "  Postagens");
+                }else{
+                   //se nao tem postagens
+                    MyPosts.setText("0 Postagens");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //alterar o texto do botao(amigos) com a quantidade de amigos
         FriendsRef.child(currentUserId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
