@@ -23,11 +23,12 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView userName, userProfName, userStatus, userCountry, userGender, userRelation, userDOB;
     private CircleImageView userProfileImage;
 
-    private DatabaseReference profileUserRef;
+    private DatabaseReference profileUserRef, FriendsRef;
     private FirebaseAuth mAuth;
     private Button MyPosts, MyFriends;
 
     private String currentUserId;
+    private int countFriends = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
         profileUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
+        FriendsRef = FirebaseDatabase.getInstance().getReference().child("Friends");
 
         userName = (TextView) findViewById(R.id.my_profile_username);
         userProfName = (TextView) findViewById(R.id.my_profile_full_name);
@@ -60,6 +62,26 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SendUserToMyPostsActivity();
+            }
+        });
+
+        //alterar texto do botao de numeros de amigos
+        FriendsRef.child(currentUserId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    //se users tem amigos
+                    countFriends = (int) dataSnapshot.getChildrenCount();//conta o numero de amigos(childs) no database
+                    MyFriends.setText(Integer.toString(countFriends) + "  Amigos");
+                }else{
+                    //se users não ten amigos
+                    MyFriends.setText("0 Amigos");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
