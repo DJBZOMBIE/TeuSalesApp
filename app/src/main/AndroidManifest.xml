@@ -45,8 +45,10 @@
             android:parentActivityName=".MainActivity" />
         <activity android:name=".PersonProfileActivity" />
         <activity android:name=".FriendsActivity" />
-        <activity android:name=".ChatActivity"
-            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".ChatActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".MyPostsActivity"></activity>
     </application>
 
 </manifest>

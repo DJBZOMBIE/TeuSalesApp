@@ -129,7 +129,7 @@ public class ChatActivity extends AppCompatActivity {
             SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy"); //data padrão
             saveCurrentDate = currentDate.format(calFordDate.getTime()); //pega data padrao e salva na var saveCurrentDate
             Calendar calFordTime = Calendar.getInstance();
-            SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss"); //hora/tempo padrão
+            SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss aa"); //hora/tempo padrão
             saveCurrentTime = currentTime.format(calFordTime.getTime());
 
             //salvar mensagem no bd
