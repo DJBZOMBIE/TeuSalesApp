@@ -49,9 +49,9 @@ public class ChatActivity extends AppCompatActivity {
 
     private String messageReceiverID, messageReceiverName, messageSenderID, saveCurrentDate, saveCurrentTime;
 
-    private TextView receiverName;
+    private TextView receiverName, userLastSeen;
     private CircleImageView receiverProfileImage;
-    private DatabaseReference RootRef;
+    private DatabaseReference RootRef, UserRef;
     private FirebaseAuth mAuth;
 
     @Override
@@ -63,6 +63,7 @@ public class ChatActivity extends AppCompatActivity {
         messageSenderID = mAuth.getCurrentUser().getUid();
 
         RootRef = FirebaseDatabase.getInstance().getReference();
+        UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         messageReceiverID = getIntent().getExtras().get("visit_user_id").toString();
         messageReceiverName= getIntent().getExtras().get("username").toString();
@@ -115,6 +116,7 @@ public class ChatActivity extends AppCompatActivity {
 
     //enviar mensagem
     private void SendMessage() {
+        updateUserStatus("online");//quando user manda mensagem ele fica online
         String messageText = userMessageInput.getText().toString();
 
         if(TextUtils.isEmpty(messageText)){
@@ -161,16 +163,49 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    //mostra o nome e foto do usuario na barra de titulo do chat
+    //atualizar o status(online/offline) do user
+    public void updateUserStatus(String state){
+        String saveCurrentDate, saveCurrentTime;
+
+        Calendar calForDate = Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy"); //data padrão
+        saveCurrentDate = currentDate.format(calForDate.getTime());
+
+        Calendar calForTime = Calendar.getInstance();
+        SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a"); //data padrão
+        saveCurrentTime = currentTime.format(calForTime.getTime());
+
+        //salvar no database
+        Map currentStateMap = new HashMap();
+        currentStateMap.put("time", saveCurrentTime);
+        currentStateMap.put("date", saveCurrentDate);
+        currentStateMap.put("type", state);
+
+        //cria um novo campo(userState) na tabela Users do BD
+        UserRef.child(messageSenderID).child("userState").updateChildren(currentStateMap);
+    }
+
+    //mostra o nome, foto e status(online ou visto pela ultima vez(off)) do usuario na barra de titulo do chat
     private void DisplayReceiverInfo() {
-       receiverName.setText(messageReceiverName);
+       receiverName.setText(messageReceiverName); //seta o nome
 
        RootRef.child("Users").child(messageReceiverID).addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
                if (dataSnapshot.exists()){
                    final String profileImage = dataSnapshot.child("profileimage").getValue().toString();
-                   Picasso.with(ChatActivity.this).load(profileImage).placeholder(R.drawable.profile).into(receiverProfileImage);
+                   final String type = dataSnapshot.child("userState").child("type").getValue().toString();
+                   final String LastDate = dataSnapshot.child("userState").child("date").getValue().toString();
+                   final String LastTime = dataSnapshot.child("userState").child("time").getValue().toString();
+
+                   if(type.equals("online")){
+                       //se user ta online
+                       userLastSeen.setText("online");
+                   }else{
+                       userLastSeen.setText("visto pela última vez: " + LastTime + " " + LastDate);
+                   }
+
+                   Picasso.with(ChatActivity.this).load(profileImage).placeholder(R.drawable.profile).into(receiverProfileImage); //seta a foto
                }
            }
 
@@ -194,6 +229,7 @@ public class ChatActivity extends AppCompatActivity {
         actionBar.setCustomView(action_bar_view);
 
         receiverName = (TextView) findViewById(R.id.custom_profile_name);
+        userLastSeen = (TextView) findViewById(R.id.custom_user_last_seen);
         receiverProfileImage = (CircleImageView) findViewById(R.id.custom_profile_image);
 
         SendMessageButton = (ImageButton) findViewById(R.id.send_message_button);
