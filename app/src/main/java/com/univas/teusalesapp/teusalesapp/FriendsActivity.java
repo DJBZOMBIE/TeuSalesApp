@@ -139,7 +139,7 @@ public class FriendsActivity extends AppCompatActivity {
                                @Override
                                public void onClick(View view) {
                                    CharSequence options[] = new CharSequence[]{
-                                     userName + "'s Perfil", "Enviar menssagem"
+                                     userName + "'s Perfil", "Enviar mensagem"
                                    };
                                    AlertDialog.Builder builder = new AlertDialog.Builder(FriendsActivity.this);
                                    builder.setTitle("Selecione uma opção");

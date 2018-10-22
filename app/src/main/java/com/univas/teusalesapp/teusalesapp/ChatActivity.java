@@ -233,7 +233,7 @@ public class ChatActivity extends AppCompatActivity {
         receiverProfileImage = (CircleImageView) findViewById(R.id.custom_profile_image);
 
         SendMessageButton = (ImageButton) findViewById(R.id.send_message_button);
-        SendImagefileButton = (ImageButton) findViewById(R.id.send_image_file_button);
+        //SendImagefileButton = (ImageButton) findViewById(R.id.send_image_file_button);
         userMessageInput = (EditText) findViewById(R.id.input_message);
 
         messagesAdapter = new MessagesAdapter(messagesList);

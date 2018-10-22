@@ -28,23 +28,18 @@
         android:layout_alignParentStart="true"
         android:background="@android:color/background_light"
         android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/send_image_file_button"
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_select_image"/>
         
         <EditText
             android:id="@+id/input_message"
-            android:layout_width="274dp"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:hint="Digite sua mensagem aqui..."
+            android:layout_marginLeft="10dp"
             android:padding="17dp"/>
 
         <ImageButton
             android:id="@+id/send_message_button"
-            android:layout_width="42dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_send_message"/>
 

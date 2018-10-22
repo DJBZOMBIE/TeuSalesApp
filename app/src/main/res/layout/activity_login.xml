@@ -26,7 +26,7 @@
         android:background="@drawable/inputs"
         android:drawableLeft="@drawable/email"
         android:ems="10"
-        android:hint="Email..."
+        android:hint="E-Mail..."
         android:inputType="textEmailAddress"
         android:padding="8dp" />
     <EditText
@@ -39,7 +39,7 @@
         android:background="@drawable/inputs"
         android:drawableLeft="@drawable/password"
         android:ems="10"
-        android:hint="Password..."
+        android:hint="Senha..."
         android:inputType="textPassword"
         android:padding="8dp" />
 
