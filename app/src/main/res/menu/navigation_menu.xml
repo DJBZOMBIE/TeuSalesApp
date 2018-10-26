@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/nav_post"
-        android:title="Add New Post"
+        android:title="Adicionar Postagem"
         android:icon="@drawable/add_post"/>
 
     <item
         android:id="@+id/nav_profile"
-        android:title="Profile"
+        android:title="Perfil"
         android:icon="@drawable/profile_icon"/>
 
     <item
@@ -18,27 +18,27 @@
 
     <item
         android:id="@+id/nav_friends"
-        android:title="Friends"
+        android:title="Amigos"
         android:icon="@drawable/friends"/>
 
     <item
         android:id="@+id/nav_find_friends"
-        android:title="Find Friends"
+        android:title="Encontrar Amigos"
         android:icon="@drawable/find_people"/>
 
     <item
         android:id="@+id/nav_messages"
-        android:title="Messsages"
+        android:title="Conversas"
         android:icon="@drawable/messages"/>
 
     <item
         android:id="@+id/nav_settings"
-        android:title="Settings"
+        android:title="Configurações"
         android:icon="@drawable/settings"/>
 
     <item
         android:id="@+id/nav_Logout"
-        android:title="Logout"
+        android:title="Sair"
         android:icon="@drawable/logout"/>
 
 </menu>

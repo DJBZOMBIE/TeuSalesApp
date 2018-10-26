@@ -67,6 +67,7 @@ public class FindFriendsActivity extends AppCompatActivity {
     private void SearchPeopleAndFriends(String searchBoxInput) {
 
         Toast.makeText(this, "Procurando...", Toast.LENGTH_LONG).show();
+
         //buscas por usuarios
         Query searchPeopleandFriendsQuery = allUsersDatabaseRef.orderByChild("fullname")
                 .startAt(searchBoxInput).endAt(searchBoxInput + "\uf8ff");
@@ -80,10 +81,22 @@ public class FindFriendsActivity extends AppCompatActivity {
                 )
         {
             @Override
-            protected void populateViewHolder(FindFriendsViewHolder viewHolder, FindFriends model, int position) {
+            protected void populateViewHolder(FindFriendsViewHolder viewHolder, FindFriends model, final int position) {
                 viewHolder.setFullname(model.getFullname());
                 viewHolder.setStatus(model.getStatus());
                 viewHolder.setProfileimage(getApplicationContext(), model.getProfileimage());
+
+                //pegar id de um user especifico
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String visit_user_id = getRef(position).getKey();
+
+                        Intent profileIntent = new Intent(FindFriendsActivity.this, PersonProfileActivity.class);
+                        profileIntent.putExtra("visit_user_id", visit_user_id); //envia id do user
+                        startActivity(profileIntent);
+                    }
+                });
             }
         };
         SearchResultList.setAdapter(firebaseRecyclerAdapter);
@@ -130,7 +143,6 @@ public class FindFriendsActivity extends AppCompatActivity {
 
     private void SendUserToMainActivity() {
         Intent mainIntent = new Intent(FindFriendsActivity.this, MainActivity.class);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(mainIntent);
         finish();
     }

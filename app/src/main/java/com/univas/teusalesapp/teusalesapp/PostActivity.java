@@ -45,11 +45,13 @@ public class PostActivity extends AppCompatActivity {
     private static final int Gallery_Pick = 1;
     private Uri ImageUri;
     private String Description;
+
     private StorageReference PostsImagesRefrence;
     private DatabaseReference UsersRef, PostsRef;
     private FirebaseAuth mAuth;
 
     private String saveCurrentDate, saveCurrentTime, postRandomName, downloadUrl, current_user_id;
+    private long countPosts = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +116,9 @@ public class PostActivity extends AppCompatActivity {
         SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy"); //data padrão
         saveCurrentDate = currentDate.format(calFordDate.getTime()); //pega data padrao e salva na var saveCurrentDate
 
-        Calendar calFordTime= Calendar.getInstance();
-        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm"); //hora/tempo padrão
-        saveCurrentTime = currentTime.format(calFordDate.getTime());
+        Calendar calFordTime = Calendar.getInstance();
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss"); //hora/tempo padrão
+        saveCurrentTime = currentTime.format(calFordTime.getTime());
 
         postRandomName = saveCurrentDate + saveCurrentTime; //concatena as strings tempo e hora dentro da string postRandomName, onde é gerado um nome unico(id) para a foto que foi postada no aplicativo.
 
@@ -141,6 +143,24 @@ public class PostActivity extends AppCompatActivity {
 
     //salvar post information dentro do firebase database
     private void SavingPostInformationToDatabase() {
+
+        //contar posts
+        PostsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    countPosts = dataSnapshot.getChildrenCount(); //conta a quantidade de posts realizados pelo user
+                }else{
+                    countPosts = 0; //se nao tiver posts/primeira postagem a var countPosts fica com 0
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         UsersRef.child(current_user_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -157,6 +177,7 @@ public class PostActivity extends AppCompatActivity {
                     postsMap.put("postimage", downloadUrl);
                     postsMap.put("profileimage", userProfileImage);
                     postsMap.put("fullname", userFullName);
+                    postsMap.put("counter", countPosts);
 
                     PostsRef.child(current_user_id + postRandomName).updateChildren(postsMap) //realiza post e cria um id único para o post do usuario
                             .addOnCompleteListener(new OnCompleteListener() {

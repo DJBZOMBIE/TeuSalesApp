@@ -33,8 +33,10 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
+
+
     <Button
-        android:id="@+id/edit_post_button"
+        android:id="@+id/negociarPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/delete_post_button"
@@ -43,10 +45,26 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/button"
+        android:text="Entrar em contato"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/edit_post_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="134dp"
+        android:background="@drawable/button"
         android:text="Editar Post"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
         android:textStyle="bold" />
+
+
+
 
     <Button
         android:id="@+id/delete_post_button"
