@@ -13,11 +13,14 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/messages_list_users"
+        android:paddingTop="8dp"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/chat_bar_layout"
         android:layout_above="@+id/myLinearLayout"
         android:background="@android:color/darker_gray"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_centerHorizontal="true"/>
 
     <LinearLayout

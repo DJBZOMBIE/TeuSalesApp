@@ -34,7 +34,7 @@ public class CommentsActivity extends AppCompatActivity {
     private RecyclerView CommentsList;
     private ImageButton PostCommentButton;
     private EditText CommentInputText;
-
+    private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
     private DatabaseReference UsersRef, PostsRef;
     private FirebaseAuth mAuth;
 
@@ -92,7 +92,7 @@ public class CommentsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FirebaseRecyclerAdapter<Comments, CommentsViewHolder> firebaseRecyclerAdapter
+        final FirebaseRecyclerAdapter<Comments, CommentsViewHolder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Comments, CommentsViewHolder>
                 (
                         Comments.class,
@@ -100,6 +100,8 @@ public class CommentsActivity extends AppCompatActivity {
                         CommentsViewHolder.class,
                         PostsRef
                 )
+
+
         {
             @Override
             protected void populateViewHolder(CommentsViewHolder viewHolder, Comments model, int position) {
@@ -108,7 +110,24 @@ public class CommentsActivity extends AppCompatActivity {
                 viewHolder.setDate(model.getDate());
                 viewHolder.setTime(model.getTime());
             }
+
+
         };
+
+        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int comentsCount = firebaseRecyclerAdapter.getItemCount();
+                int lastVisiblePosition = linearLayoutManager.findLastVisibleItemPosition();
+
+                if (lastVisiblePosition == -1 ||
+                        (positionStart >= (comentsCount - 1) &&
+                                lastVisiblePosition == (positionStart - 1))) {
+                    CommentsList.scrollToPosition(positionStart);
+                }
+            }
+        });
 
         CommentsList.setAdapter(firebaseRecyclerAdapter);
     }

@@ -104,7 +104,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
             }
 
         }
+
+
+
     }
+
+
+
 
     @Override
     public int getItemCount() {

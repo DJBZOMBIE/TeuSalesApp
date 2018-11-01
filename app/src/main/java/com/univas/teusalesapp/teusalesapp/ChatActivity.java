@@ -75,6 +75,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SendMessage();
+
             }
         });
 
@@ -90,6 +91,12 @@ public class ChatActivity extends AppCompatActivity {
                         Messages messages = dataSnapshot.getValue(Messages.class);
                         messagesList.add(messages);
                         messagesAdapter.notifyDataSetChanged();
+
+
+
+
+
+
                     }
 
                     @Override
@@ -124,7 +131,7 @@ public class ChatActivity extends AppCompatActivity {
         }else{
             String message_sender_ref = "Messages/" + messageSenderID + "/" + messageReceiverID; //referencia o id (do usuario) que enviou mensagem (montagem da arvore de mensagens enviadas no database)
             String message_receiver_ref = "Messages/" + messageReceiverID + "/" + messageSenderID; //refencia o id (do usuario) que recebeu a mensagem
-            DatabaseReference user_message_key = RootRef.child("Messages").child(messageSenderID).child(messageReceiverID).push();//push cria um id unico para as mensagens
+            final DatabaseReference user_message_key = RootRef.child("Messages").child(messageSenderID).child(messageReceiverID).push();//push cria um id unico para as mensagens
             String message_push_id = user_message_key.getKey();
 
             Calendar calFordDate = Calendar.getInstance();
@@ -152,8 +159,10 @@ public class ChatActivity extends AppCompatActivity {
                @Override
                public void onComplete(@NonNull Task task) {
                    if(task.isSuccessful()){
-                       Toast.makeText(ChatActivity.this, "Mensagem enviada com sucesso.", Toast.LENGTH_SHORT).show();
+//                       Toast.makeText(ChatActivity.this, "Mensagem enviada com sucesso.", Toast.LENGTH_SHORT).show();
                        userMessageInput.setText(""); //limpar campo de texto
+                     //  userMessagesList.scrollToPosition(0);
+
                    }else{
                        String message = task.getException().getMessage();
                        Toast.makeText(ChatActivity.this, "Erro: " + message, Toast.LENGTH_SHORT).show();
@@ -240,7 +249,12 @@ public class ChatActivity extends AppCompatActivity {
         userMessagesList = (RecyclerView) findViewById(R.id.messages_list_users);
         linearLayoutManager = new LinearLayoutManager(this);
         userMessagesList.setHasFixedSize(true);
+        linearLayoutManager.setReverseLayout(true);
         userMessagesList.setLayoutManager(linearLayoutManager);
-        userMessagesList.setAdapter(messagesAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+       finish();
     }
 }

@@ -39,7 +39,7 @@ public class PostActivity extends AppCompatActivity {
     private ProgressDialog loadingBar;
 
     private ImageButton SelectPostImage;
-    private Button UpdatePostButton;
+    private Button updatePostButton;
     private EditText PostDescription;
 
     private static final int Gallery_Pick = 1;
@@ -50,7 +50,7 @@ public class PostActivity extends AppCompatActivity {
     private DatabaseReference UsersRef, PostsRef;
     private FirebaseAuth mAuth;
 
-    private String saveCurrentDate, saveCurrentTime, postRandomName, downloadUrl, current_user_id;
+    private String saveCurrentDate, saveCurrentTime, postRandomName, downloadUrl, current_user_id,city,state;
     private long countPosts = 0;
 
     @Override
@@ -66,7 +66,7 @@ public class PostActivity extends AppCompatActivity {
         PostsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
 
         SelectPostImage = (ImageButton) findViewById(R.id.select_post_image);
-        UpdatePostButton = (Button) findViewById(R.id.update_post_button);
+        updatePostButton = (Button) findViewById(R.id.update_post_button);
         PostDescription = (EditText) findViewById(R.id.post_description);
         loadingBar = new ProgressDialog(this);
 
@@ -85,7 +85,7 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-        UpdatePostButton.setOnClickListener(new View.OnClickListener() {
+        updatePostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ValidatePostInfo();
