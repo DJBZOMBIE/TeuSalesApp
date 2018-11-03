@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -40,17 +41,18 @@ public class PostActivity extends AppCompatActivity {
 
     private ImageButton SelectPostImage;
     private Button updatePostButton;
-    private EditText PostDescription;
+    private EditText PostDescription,postValue;
 
     private static final int Gallery_Pick = 1;
     private Uri ImageUri;
     private String Description;
+    private String value;
 
     private StorageReference PostsImagesRefrence;
     private DatabaseReference UsersRef, PostsRef;
     private FirebaseAuth mAuth;
 
-    private String saveCurrentDate, saveCurrentTime, postRandomName, downloadUrl, current_user_id,city,state;
+    private String saveCurrentDate, saveCurrentTime, postRandomName, downloadUrl, current_user_id;
     private long countPosts = 0;
 
     @Override
@@ -68,6 +70,7 @@ public class PostActivity extends AppCompatActivity {
         SelectPostImage = (ImageButton) findViewById(R.id.select_post_image);
         updatePostButton = (Button) findViewById(R.id.update_post_button);
         PostDescription = (EditText) findViewById(R.id.post_description);
+        postValue = (EditText) findViewById(R.id.post_value);
         loadingBar = new ProgressDialog(this);
 
 
@@ -96,6 +99,7 @@ public class PostActivity extends AppCompatActivity {
 
     private void ValidatePostInfo() {
         Description = PostDescription.getText().toString();
+        value =  postValue.getText().toString();
         if(ImageUri == null){
             Toast.makeText(this, "Por favor, selecione uma imagem para postar", Toast.LENGTH_SHORT).show();
         }
@@ -166,7 +170,18 @@ public class PostActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     String userFullName = dataSnapshot.child("fullname").getValue().toString();
-                    String userProfileImage = dataSnapshot.child("profileimage").getValue().toString();
+                    String userProfileImage = "";
+                    String state = "";
+                    String city = "";
+                    try{
+                        state = dataSnapshot.child("state").getValue().toString();
+                        city = dataSnapshot.child("city").getValue().toString();
+                        userProfileImage = dataSnapshot.child("profileimage").getValue().toString();
+                    }catch (Exception e ){
+                        Log.e("Post",e.getMessage());
+                    }
+
+
 
                     //salvar post information
                     HashMap postsMap = new HashMap();
@@ -178,6 +193,9 @@ public class PostActivity extends AppCompatActivity {
                     postsMap.put("profileimage", userProfileImage);
                     postsMap.put("fullname", userFullName);
                     postsMap.put("counter", countPosts);
+                    postsMap.put("state",state);
+                    postsMap.put("city",city);
+                    postsMap.put("value",value);
 
                     PostsRef.child(current_user_id + postRandomName).updateChildren(postsMap) //realiza post e cria um id único para o post do usuario
                             .addOnCompleteListener(new OnCompleteListener() {

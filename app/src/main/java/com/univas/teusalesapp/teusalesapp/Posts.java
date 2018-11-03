@@ -2,13 +2,13 @@ package com.univas.teusalesapp.teusalesapp;
 
 public class Posts {
 
-    public String uid, time, date, postimage, description, profileimage, fullname,city,state;
+    public String uid, time, date, postimage, description, profileimage, fullname,city,state,value;
 
     public Posts(){
 
     }
 
-    public Posts(String uid, String time, String date, String postimage, String description, String profileimage, String fullname,String city,String state) {
+    public Posts(String uid, String time, String date, String postimage, String description, String profileimage, String fullname,String city,String state,String value) {
         this.uid = uid;
         this.time = time;
         this.date = date;
@@ -16,8 +16,18 @@ public class Posts {
         this.description = description;
         this.profileimage = profileimage;
         this.fullname = fullname;
+        this.value = value;
         this.city = city;
         this.state = state;
+    }
+
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getCity() {

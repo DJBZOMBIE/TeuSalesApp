@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -178,16 +179,30 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     protected void populateViewHolder(PostsViewHolder viewHolder, Posts model, int position) {
 
-                        final String PostKey = getRef(position).getKey();//pegar a posição do post ao clicar
 
 
                         //pegar os dados, exemplo: profilename, data, time, etc...
                         viewHolder.setFullname(model.getFullname());
                         viewHolder.setTime(model.getTime());
-                        viewHolder.setDate(model.getDate());
                         viewHolder.setDescription(model.getDescription());
                         viewHolder.setProfileimage(getApplicationContext(), model.getProfileimage());
                         viewHolder.setPostimage(getApplicationContext(), model.getPostimage());
+
+                        try{
+                            viewHolder.setState(model.getState());
+                            viewHolder.setCity(model.getCity());
+                            viewHolder.setValue("R$"+ model.value.replace(".",","));
+                            viewHolder.setDate(model.getDate());
+
+
+                        }catch (Exception e){
+                            Log.e("populateViewHolder",e.getMessage());
+                        }
+
+                        final String PostKey = getRef(position).getKey();//pegar a posição do post ao clicar
+
+
+
 
                         viewHolder.setLikeButtonStatus(PostKey);
 
@@ -250,6 +265,9 @@ public class MainActivity extends AppCompatActivity {
         View mView;
 
         ImageButton LikePostButton, CommentPostButton;
+        TextView value;
+        TextView state;
+        TextView city;
         TextView DisplayNoOfLikes;
         int countLikes;
         String currentUserId;
@@ -291,6 +309,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+
+
+        public void setValue(String value) {
+            TextView txtvalue = (TextView) mView.findViewById(R.id.post_value_main);
+            txtvalue.setText(value);
+        }
+
+
+        public void setState(String state) {
+            TextView txtstate = (TextView) mView.findViewById(R.id.post_state);
+            txtstate.setText(state);
+        }
+
+
+        public void setCity(String city) {
+            TextView txtcity = (TextView) mView.findViewById(R.id.post_city);
+            txtcity.setText(city);
+
+        }
+
 
 
         public void setFullname(String fullname){

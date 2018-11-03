@@ -14,19 +14,34 @@
     <ImageButton
         android:id="@+id/select_post_image"
         android:layout_width="match_parent"
-        android:layout_height="293dp"
+        android:layout_height="257dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="69dp"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/select_image" />
+
+
+    <EditText
+        android:id="@+id/post_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="179dp"
+        android:background="@drawable/inputs"
+        android:ems="10"
+        android:hint="0,00"
+        android:inputType="numberDecimal"
+        android:padding="15dp" />
+
     <EditText
         android:id="@+id/post_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="121dp"
+        android:layout_marginBottom="107dp"
         android:background="@drawable/inputs"
         android:ems="10"
         android:hint="Escreva sua postagem..."
@@ -39,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="58dp"
+        android:layout_marginBottom="42dp"
         android:background="@drawable/button"
         android:padding="10dp"
         android:text="Salvar Post"
