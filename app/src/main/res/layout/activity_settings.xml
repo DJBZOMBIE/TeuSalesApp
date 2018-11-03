@@ -158,7 +158,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_below="@+id/settings_dob"
-               android:text="Estado:"
+               android:text="Genero:"
                android:textStyle="bold" />
 
            <EditText

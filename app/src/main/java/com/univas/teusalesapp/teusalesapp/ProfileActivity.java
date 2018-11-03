@@ -21,7 +21,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView userName, userProfName, userStatus, userCountry, userGender, userRelation, userDOB;
+    private TextView userName, userProfName, userStatus, userCountry,userState,userCity, userGender, userRelation, userDOB;
     private CircleImageView userProfileImage;
 
     private DatabaseReference profileUserRef, FriendsRef, PostsRef;
@@ -43,9 +43,12 @@ public class ProfileActivity extends AppCompatActivity {
         PostsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
 
         userName = (TextView) findViewById(R.id.my_profile_username);
+
         userProfName = (TextView) findViewById(R.id.my_profile_full_name);
         userStatus = (TextView) findViewById(R.id.my_profile_status);
         userCountry = (TextView) findViewById(R.id.my_country);
+        userState = (TextView) findViewById(R.id.my_state);
+        userCity = (TextView) findViewById(R.id.my_city);
         userGender = (TextView) findViewById(R.id.my_gender);
         userRelation = (TextView) findViewById(R.id.my_relationship_status);
         userDOB = (TextView) findViewById(R.id.my_dob);
@@ -121,6 +124,8 @@ public class ProfileActivity extends AppCompatActivity {
                         String myProfileStatus = dataSnapshot.child("status").getValue().toString();
                         String myDOB = dataSnapshot.child("dob").getValue().toString();
                         String myCountry = dataSnapshot.child("country").getValue().toString();
+                        String myState = dataSnapshot.child("state").getValue().toString();
+                        String myCity = dataSnapshot.child("city").getValue().toString();
                         String myGender = dataSnapshot.child("gender").getValue().toString();
                         String myRelationStatus = dataSnapshot.child("relationshipstatus").getValue().toString();
 
@@ -130,7 +135,9 @@ public class ProfileActivity extends AppCompatActivity {
                         userProfName.setText(myProfileName);
                         userStatus.setText(myProfileStatus);
                         userDOB.setText("DDN: " + myDOB);
-                        userCountry.setText("País: " + myCountry);
+                        userCountry.setText("País:" + myCountry);
+                        userState.setText("Estado:"+myState);
+                        userCity.setText("Estado:"+myCity);
                         userGender.setText("Gênero: " + myGender);
                         userRelation.setText("Relacionamento: " + myRelationStatus);
 

@@ -56,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Button UpdateAccountSettingsButton;
     private Integer indexEstado = 0;
     private Integer indexCidade = 0;
+    private Boolean firstTime = true;
     private JSONObject obj;
     private CircleImageView userProfImage;
     private ProgressDialog loadingBar;
@@ -112,7 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
         spEstado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                indexEstado = i;
 
                 try {
                     JSONArray arr = obj.getJSONArray("estados").getJSONObject(i).getJSONArray("cidades");
@@ -127,7 +128,12 @@ public class SettingsActivity extends AppCompatActivity {
                     ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(SettingsActivity.this, android.R.layout.simple_list_item_1, listCidades);
 
                     spCidades.setAdapter(adapterSpinner);
-                    spCidades.setSelection(indexCidade);
+                    if(firstTime) {
+                        spCidades.setSelection(indexCidade);
+                        firstTime = false;
+                    }
+
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
