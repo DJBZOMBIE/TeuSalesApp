@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
     private void DisplayAllUsersPosts() {
 
         //organizar postagens na linha do tempo
-        Query SortPostsInDecendingOrder = PostsRef.orderByChild("counter");
+        Query SortPostsInDecendingOrder = PostsRef.orderByChild("timestempValue");
 
         FirebaseRecyclerAdapter<Posts, PostsViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Posts, PostsViewHolder>

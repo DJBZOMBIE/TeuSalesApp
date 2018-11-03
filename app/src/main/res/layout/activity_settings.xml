@@ -56,13 +56,14 @@
 
            <EditText
                android:id="@+id/settings_username"
-               android:layout_height="wrap_content"
                android:layout_width="match_parent"
-               android:background="@drawable/inputs"
-               android:padding="12dp"
+               android:layout_height="wrap_content"
                android:layout_below="@+id/txtNomeUsuario"
+               android:background="@drawable/inputs"
                android:hint="Usuário"
-               android:textColor="@android:color/background_dark" />
+               android:padding="12dp"
+               android:textColor="@android:color/background_dark"
+               android:textStyle="bold" />
            <TextView
                android:id="@+id/txtNomeCompleto"
                android:layout_width="wrap_content"
@@ -79,7 +80,8 @@
                android:background="@drawable/inputs"
                android:hint="Nome completo"
                android:padding="12dp"
-               android:textColor="@android:color/background_dark" />
+               android:textColor="@android:color/background_dark"
+               android:textStyle="bold" />
 
            <TextView
                android:id="@+id/txtPais"
@@ -95,11 +97,12 @@
                android:layout_height="wrap_content"
                android:layout_below="@+id/txtPais"
                android:background="@drawable/inputs"
-               android:text="Brasil"
                android:enabled="false"
                android:hint="País"
                android:padding="12dp"
-               android:textColor="@android:color/background_dark" />
+               android:text="Brasil"
+               android:textColor="@android:color/background_dark"
+               android:textStyle="bold" />
 
 
            <TextView
@@ -131,6 +134,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:background="@drawable/inputs"
+
                android:textStyle="bold"
                android:layout_below="@+id/txtCidade" />
 
@@ -187,6 +191,7 @@
                android:layout_below="@+id/txtRelacionamento"
                android:background="@drawable/inputs"
                android:hint="Status de relacionamento"
+               android:textStyle="bold"
                android:padding="12dp"
                android:textColor="@android:color/background_dark" />
 

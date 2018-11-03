@@ -17,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.sql.Timestamp;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -117,7 +119,12 @@ public class ProfileActivity extends AppCompatActivity {
 
                     try {
 
+                        Timestamp t = new Timestamp(System.currentTimeMillis());
+
+
+
                         //listar dados (codigo reaproveitado da classe SettingsActivity)
+                        String now  = t.toString();
                         String myProfileImage = dataSnapshot.child("profileimage").getValue().toString();
                         String myUserName = dataSnapshot.child("username").getValue().toString();
                         String myProfileName = dataSnapshot.child("fullname").getValue().toString();
@@ -135,9 +142,9 @@ public class ProfileActivity extends AppCompatActivity {
                         userProfName.setText(myProfileName);
                         userStatus.setText(myProfileStatus);
                         userDOB.setText("DDN: " + myDOB);
-                        userCountry.setText("País:" + myCountry);
-                        userState.setText("Estado:"+myState);
-                        userCity.setText("Estado:"+myCity);
+                        userCountry.setText("País: " + myCountry);
+                        userState.setText("Estado: "+myState);
+                        userCity.setText("Cidade: "+myCity);
                         userGender.setText("Gênero: " + myGender);
                         userRelation.setText("Relacionamento: " + myRelationStatus);
 

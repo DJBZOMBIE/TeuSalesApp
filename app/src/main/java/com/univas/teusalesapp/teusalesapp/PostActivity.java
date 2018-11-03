@@ -29,6 +29,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -169,10 +170,12 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
+                    String nowt = String.valueOf(System.currentTimeMillis());
                     String userFullName = dataSnapshot.child("fullname").getValue().toString();
                     String userProfileImage = "";
                     String state = "";
                     String city = "";
+
                     try{
                         state = dataSnapshot.child("state").getValue().toString();
                         city = dataSnapshot.child("city").getValue().toString();
@@ -196,6 +199,7 @@ public class PostActivity extends AppCompatActivity {
                     postsMap.put("state",state);
                     postsMap.put("city",city);
                     postsMap.put("value",value);
+                    postsMap.put("timestempValue",nowt);
 
                     PostsRef.child(current_user_id + postRandomName).updateChildren(postsMap) //realiza post e cria um id único para o post do usuario
                             .addOnCompleteListener(new OnCompleteListener() {
