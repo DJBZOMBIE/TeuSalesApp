@@ -15,6 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -25,17 +34,26 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import org.json.JSONArray;
+
+import java.util.Arrays;
+
 public class LoginActivity extends AppCompatActivity {
 
     private Button LoginButton;
-    private ImageView googleSignInButton;
+    private ImageView googleSignInButton,faceSignButton;
     private EditText UserEmail, UserPassword;
     private TextView NeedNewAccountLink, ForgetPasswordLink;
     private ProgressDialog loadingBar;
+    private com.facebook.login.widget.LoginButton loginButtonFc;
+    private CallbackManager callbackManager;
+    private LoginManager loginManager;
+
 
     private FirebaseAuth mAuth;
     private Boolean emailAddressChecker;
@@ -49,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
+
 
 
         NeedNewAccountLink = (TextView) findViewById(R.id.register_account_link);
@@ -58,6 +76,78 @@ public class LoginActivity extends AppCompatActivity {
         LoginButton = (Button) findViewById(R.id.login_button);
         ForgetPasswordLink = (TextView) findViewById(R.id.forget_password_link);
         googleSignInButton = (ImageView) findViewById(R.id.google_signin_button);
+        faceSignButton = (ImageView) findViewById(R.id.facebook_signin_button);
+
+        loginButtonFc = (LoginButton) findViewById(R.id.login_buttonfc);
+        loginButtonFc.setReadPermissions("email");
+
+
+        callbackManager = CallbackManager.Factory.create();
+
+
+        faceSignButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,Arrays.asList("email","public_profile"));
+                LoginManager.getInstance().registerCallback(callbackManager,
+                        new FacebookCallback<LoginResult>() {
+                            @Override
+                            public void onSuccess(LoginResult loginResult) {
+                                Toast.makeText(LoginActivity.this,String.valueOf(loginResult.getAccessToken()),Toast.LENGTH_SHORT).show();
+                                handleFacebookAccessToken(loginResult.getAccessToken());
+
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                // App code
+                            }
+
+                            @Override
+                            public void onError(FacebookException exception) {
+                                // App code
+                            }
+                        });
+
+            }
+        });
+//       faceSignButton.setOnClickListener(new LoginManager().getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+//           @Override
+//           public void onSuccess(LoginResult loginResult) {
+//
+//           }
+//
+//           @Override
+//           public void onCancel() {
+//
+//           }
+//
+//           @Override
+//           public void onError(FacebookException error) {
+//
+//           }
+//       }));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+
+        mAuth = FirebaseAuth.getInstance();
         loadingBar = new ProgressDialog(this);
 
         NeedNewAccountLink.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +207,8 @@ public class LoginActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
 
@@ -165,7 +257,47 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+
+
+
     //======= fim login com conta do google =======
+
+
+
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        Log.d(TAG, "handleFacebookAccessToken:" + token);
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            SendUserToMainActivity();
+                            loadingBar.dismiss();
+
+                        } else {
+                            // If Google sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            String message = task.getException().toString();
+                            SendUserToLoginActivity();
+                            Toast.makeText(LoginActivity.this, "Não autenticado: " + message , Toast.LENGTH_SHORT).show();
+                            loadingBar.dismiss();
+                        }
+                    }
+                });
+    }
+
+
+
+
+
+
+
+
 
     //se o usuário já esta logado, então envia-o diretamente para o main activity(evita de ir toda hora para setup activity sempre que fizer login)
     @Override

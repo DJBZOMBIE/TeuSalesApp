@@ -2,4 +2,7 @@
     <string name="app_name">TeuSalesApp</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer_close</string>
+    <string name="facebook_app_id">237313303606493</string>
+    <string name="fb_login_protocol_scheme">fb237313303606493</string>
+
 </resources>
