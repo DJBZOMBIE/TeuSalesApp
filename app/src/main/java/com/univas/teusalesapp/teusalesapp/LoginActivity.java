@@ -19,8 +19,10 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.HttpMethod;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -67,6 +69,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
 
 
 
@@ -102,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             @Override
                             public void onCancel() {
-                                // App code
+                                Toast.makeText(LoginActivity.this,"Cancel",Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -267,28 +272,32 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
+        try {
+            AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+            mAuth.signInWithCredential(credential)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "signInWithCredential:success");
+                                SendUserToMainActivity();
+                                loadingBar.dismiss();
 
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            SendUserToMainActivity();
-                            loadingBar.dismiss();
-
-                        } else {
-                            // If Google sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            String message = task.getException().toString();
-                            SendUserToLoginActivity();
-                            Toast.makeText(LoginActivity.this, "Não autenticado: " + message , Toast.LENGTH_SHORT).show();
-                            loadingBar.dismiss();
+                            } else {
+                                // If Google sign in fails, display a message to the user.
+                                Log.w(TAG, "signInWithCredential:failure", task.getException());
+                                String message = task.getException().toString();
+                                SendUserToLoginActivity();
+                                Toast.makeText(LoginActivity.this, "Não autenticado: " + message, Toast.LENGTH_SHORT).show();
+                                loadingBar.dismiss();
+                            }
                         }
-                    }
-                });
+                    });
+
+        }catch (Exception e){
+            Log.e("handleFacebook",e.getMessage());
+        }
     }
 
 
