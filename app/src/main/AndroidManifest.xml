@@ -74,6 +74,10 @@
         <activity
             android:name=".ChatsActivity"
             android:label="@string/title_activity_chats"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".ActivityFriendsRequest"
+            android:label="@string/title_activity_friends_request"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
