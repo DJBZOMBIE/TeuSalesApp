@@ -75,7 +75,6 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SendMessage();
-
             }
         });
 
@@ -91,12 +90,6 @@ public class ChatActivity extends AppCompatActivity {
                         Messages messages = dataSnapshot.getValue(Messages.class);
                         messagesList.add(messages);
                         messagesAdapter.notifyDataSetChanged();
-
-
-
-
-
-
                     }
 
                     @Override
@@ -131,7 +124,7 @@ public class ChatActivity extends AppCompatActivity {
         }else{
             String message_sender_ref = "Messages/" + messageSenderID + "/" + messageReceiverID; //referencia o id (do usuario) que enviou mensagem (montagem da arvore de mensagens enviadas no database)
             String message_receiver_ref = "Messages/" + messageReceiverID + "/" + messageSenderID; //refencia o id (do usuario) que recebeu a mensagem
-            final DatabaseReference user_message_key = RootRef.child("Messages").child(messageSenderID).child(messageReceiverID).push();//push cria um id unico para as mensagens
+            DatabaseReference user_message_key = RootRef.child("Messages").child(messageSenderID).child(messageReceiverID).push();//push cria um id unico para as mensagens
             String message_push_id = user_message_key.getKey();
 
             Calendar calFordDate = Calendar.getInstance();
@@ -141,34 +134,35 @@ public class ChatActivity extends AppCompatActivity {
             SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss aa"); //hora/tempo padrão
             saveCurrentTime = currentTime.format(calFordTime.getTime());
 
+            String nowt = String.valueOf(System.currentTimeMillis());
+
             //salvar mensagem no bd
             Map messageTextBody = new HashMap();
-                messageTextBody.put("message", messageText);
-                messageTextBody.put("time", saveCurrentTime);
-                messageTextBody.put("date", saveCurrentDate);
-                messageTextBody.put("type", "text");
-                messageTextBody.put("from", messageSenderID);
+            messageTextBody.put("message", messageText);
+            messageTextBody.put("time", saveCurrentTime);
+            messageTextBody.put("date", saveCurrentDate);
+            messageTextBody.put("type", "text");
+            messageTextBody.put("from", messageSenderID);
+            messageTextBody.put("timestempValue",nowt);
 
             //salvar os id's dos users que enviaram/receberam mensagens
-           Map messageBodyDetails = new HashMap();
-               messageBodyDetails.put(message_sender_ref + "/" + message_push_id, messageTextBody);
-               messageBodyDetails.put(message_receiver_ref + "/" + message_push_id, messageTextBody);
+            Map messageBodyDetails = new HashMap();
+            messageBodyDetails.put(message_sender_ref + "/" + message_push_id, messageTextBody);
+            messageBodyDetails.put(message_receiver_ref + "/" + message_push_id, messageTextBody);
 
-           //salva a arvore de mensagens no BD
-           RootRef.updateChildren(messageBodyDetails).addOnCompleteListener(new OnCompleteListener() {
-               @Override
-               public void onComplete(@NonNull Task task) {
-                   if(task.isSuccessful()){
-//                       Toast.makeText(ChatActivity.this, "Mensagem enviada com sucesso.", Toast.LENGTH_SHORT).show();
-                       userMessageInput.setText(""); //limpar campo de texto
-                     //  userMessagesList.scrollToPosition(0);
-
-                   }else{
-                       String message = task.getException().getMessage();
-                       Toast.makeText(ChatActivity.this, "Erro: " + message, Toast.LENGTH_SHORT).show();
-                   }
-               }
-           });
+            //salva a arvore de mensagens no BD
+            RootRef.updateChildren(messageBodyDetails).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(ChatActivity.this, "Mensagem enviada com sucesso.", Toast.LENGTH_SHORT).show();
+                        userMessageInput.setText(""); //limpar campo de texto
+                    }else{
+                        String message = task.getException().getMessage();
+                        Toast.makeText(ChatActivity.this, "Erro: " + message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 
@@ -196,33 +190,33 @@ public class ChatActivity extends AppCompatActivity {
 
     //mostra o nome, foto e status(online ou visto pela ultima vez(off)) do usuario na barra de titulo do chat
     private void DisplayReceiverInfo() {
-       receiverName.setText(messageReceiverName); //seta o nome
+        receiverName.setText(messageReceiverName); //seta o nome
 
-       RootRef.child("Users").child(messageReceiverID).addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(DataSnapshot dataSnapshot) {
-               if (dataSnapshot.exists()){
-                   final String profileImage = dataSnapshot.child("profileimage").getValue().toString();
-                   final String type = dataSnapshot.child("userState").child("type").getValue().toString();
-                   final String LastDate = dataSnapshot.child("userState").child("date").getValue().toString();
-                   final String LastTime = dataSnapshot.child("userState").child("time").getValue().toString();
+        RootRef.child("Users").child(messageReceiverID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    final String profileImage = dataSnapshot.child("profileimage").getValue().toString();
+                    final String type = dataSnapshot.child("userState").child("type").getValue().toString();
+                    final String LastDate = dataSnapshot.child("userState").child("date").getValue().toString();
+                    final String LastTime = dataSnapshot.child("userState").child("time").getValue().toString();
 
-                   if(type.equals("online")){
-                       //se user ta online
-                       userLastSeen.setText("online");
-                   }else{
-                       userLastSeen.setText("visto pela última vez: " + LastTime + " " + LastDate);
-                   }
+                    if(type.equals("online")){
+                        //se user ta online
+                        userLastSeen.setText("online");
+                    }else{
+                        userLastSeen.setText("visto pela última vez: " + LastTime + " " + LastDate);
+                    }
 
-                   Picasso.with(ChatActivity.this).load(profileImage).placeholder(R.drawable.profile).into(receiverProfileImage); //seta a foto
-               }
-           }
+                    Picasso.with(ChatActivity.this).load(profileImage).placeholder(R.drawable.profile).into(receiverProfileImage); //seta a foto
+                }
+            }
 
-           @Override
-           public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-           }
-       });
+            }
+        });
     }
 
     private void IntializeFields() {
@@ -249,12 +243,7 @@ public class ChatActivity extends AppCompatActivity {
         userMessagesList = (RecyclerView) findViewById(R.id.messages_list_users);
         linearLayoutManager = new LinearLayoutManager(this);
         userMessagesList.setHasFixedSize(true);
-        linearLayoutManager.setReverseLayout(true);
         userMessagesList.setLayoutManager(linearLayoutManager);
-    }
-
-    @Override
-    public void onBackPressed() {
-       finish();
+        userMessagesList.setAdapter(messagesAdapter);
     }
 }

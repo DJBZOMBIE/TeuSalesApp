@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
         //organizar postagens na linha do tempo
         Query SortPostsInDecendingOrder = PostsRef.orderByChild("timestempValue");
 
+
         FirebaseRecyclerAdapter<Posts, PostsViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Posts, PostsViewHolder>
                         (
@@ -456,7 +457,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.nav_messages:
-                Toast.makeText(this,"Messages", Toast.LENGTH_SHORT).show();
+                SendUserToChatActivity();
                 break;
 
             case R.id.nav_settings:
@@ -492,6 +493,12 @@ public class MainActivity extends AppCompatActivity {
     private void SendUserToFindFriendsActivity(){
         Intent FindFriendsIntent = new Intent(MainActivity.this, FindFriendsActivity.class);
         startActivity(FindFriendsIntent);
+
+    }
+
+    private void SendUserToChatActivity(){
+        Intent chatIntent = new Intent(MainActivity.this, ChatsActivity.class);
+        startActivity(chatIntent);
 
     }
 

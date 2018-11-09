@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
@@ -92,13 +93,15 @@ public class CommentsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        Query SortPostsComments = PostsRef.orderByChild("timestempValue");
+
         final FirebaseRecyclerAdapter<Comments, CommentsViewHolder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Comments, CommentsViewHolder>
                 (
                         Comments.class,
                         R.layout.all_comments_layout,
                         CommentsViewHolder.class,
-                        PostsRef
+                        SortPostsComments
                 )
 
 
@@ -180,6 +183,8 @@ public class CommentsActivity extends AppCompatActivity {
 
             final String RandomKey = current_user_id + saveCurrentDate + saveCurrentTime; //chave aleatória
 
+            String nowt = String.valueOf(System.currentTimeMillis());
+
             //salvar comentário no banco
             HashMap commentsMap = new HashMap();
                 commentsMap.put("uid", current_user_id);
@@ -187,6 +192,7 @@ public class CommentsActivity extends AppCompatActivity {
                 commentsMap.put("date", saveCurrentDate);
                 commentsMap.put("time", saveCurrentTime);
                 commentsMap.put("username", userName);
+                commentsMap.put("timestempValue",nowt);
                 
             PostsRef.child(RandomKey).updateChildren(commentsMap)  //no banco de dados a var PostsRef(subTabela "Comments"), é filha da tabela "Posts"
                     .addOnCompleteListener(new OnCompleteListener() {

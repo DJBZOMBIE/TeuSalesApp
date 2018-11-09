@@ -4,5 +4,6 @@
     <string name="drawer_close">Drawer_close</string>
     <string name="facebook_app_id">237313303606493</string>
     <string name="fb_login_protocol_scheme">fb237313303606493</string>
+    <string name="title_activity_chats">ChatsActivity</string>
 
 </resources>
