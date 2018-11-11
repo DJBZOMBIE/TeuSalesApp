@@ -7,11 +7,11 @@
     android:background="@color/colorProfile">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/req_users_profile_image"
-        android:layout_width="85dp"
+        android:id="@+id/reqF_users_profile_image"
+        android:layout_width="45dp"
         android:layout_height="85dp"
         android:layout_marginLeft="10dp"
-        android:src="@drawable/profile"/>
+        android:src="@drawable/profile" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:layout_margin="5dp">
 
             <TextView
-                android:id="@+id/req_users_profile_full_name"
+                android:id="@+id/reqF_users_profile_full_name"
                 android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:text="Nome: "
@@ -36,7 +36,7 @@
                 android:textStyle="bold"/>
 
             <ImageView
-                android:id="@+id/req_user_online_icon_req"
+                android:id="@+id/reqF_user_online_icon_req"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/online"
@@ -45,7 +45,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/req_users_status"
+            android:id="@+id/reqF_users_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Status: "
@@ -59,22 +59,23 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/req__acept_friend_request"
-                android:layout_width="176dp"
+                android:id="@+id/reqF__acept_friend_request"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/req_users_status"
+                android:layout_below="@+id/reqF_users_status"
                 android:layout_centerHorizontal="true"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
-                android:text="Aceitar solicitação de amizade"
+                android:text="Aceitar solicitação"
                 android:textColor="@android:color/background_light"
                 android:textSize="13dp" />
 
             <Button
-                android:id="@+id/req_decline_friend_request"
+                android:id="@+id/reqF_decline_friend_request"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/req_users_status"
+                android:layout_below="@+id/reqF_users_status"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"

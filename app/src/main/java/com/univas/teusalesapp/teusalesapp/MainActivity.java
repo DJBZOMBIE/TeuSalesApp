@@ -1,9 +1,12 @@
 package com.univas.teusalesapp.teusalesapp;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,8 +18,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,9 +39,16 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -47,14 +60,25 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private RecyclerView postList;
     private Toolbar mTollbar;
+    private boolean filter = false;
+    private LinearLayoutManager linearLayoutManager;
 
     private CircleImageView NavProfileImage;
     private TextView NavProfileUserName;
+    private TextView txtNReqFriends;
     private ImageButton AddNewPostButton;
+    private ImageButton aceptNewFriends;
+    private ImageButton searchPost;
+    private Integer indexEstado = 0;
+    private Integer indexCidade = 0;
+    private JSONObject obj;
+    private String cidade;
+    private AlertDialog alert;
+
 
 
     private FirebaseAuth mAuth;
-    private DatabaseReference UsersRef, PostsRef, LikesRef;
+    private DatabaseReference UsersRef, PostsRef, LikesRef,requestFriendsRef;
 
     String currentUserID;
     Boolean LikeChecker = false;
@@ -70,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         PostsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
         LikesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
+        requestFriendsRef = FirebaseDatabase.getInstance().getReference().child("FriendRequests").child(currentUserID).orderByChild("request_type").equalTo("received").getRef();
 
         //inicializar layouts: nav, drawer, toolbar, etc ...
         mTollbar = (Toolbar) findViewById(R.id.main_page_toolbar);
@@ -77,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Home"); //título da tollbar
 
         AddNewPostButton = (ImageButton) findViewById(R.id.add_new_post_button);
+        aceptNewFriends = (ImageButton) findViewById(R.id.aceptReqFriends);
+        txtNReqFriends = (TextView) findViewById(R.id.txtNumberReqF);
+        searchPost = (ImageButton) findViewById(R.id.searchPost);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawable_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, drawerLayout, R.string.drawer_open,R.string.drawer_close); //cria toggle
@@ -88,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         //recyclerview
         postList = (RecyclerView) findViewById(R.id.all_users_post_list);
         postList.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         postList.setLayoutManager(linearLayoutManager);
@@ -96,6 +124,34 @@ public class MainActivity extends AppCompatActivity {
         View navView = navigationView.inflateHeaderView(R.layout.navigation_header);
         NavProfileImage = (CircleImageView) navView.findViewById(R.id.nav_profile_image);
         NavProfileUserName = (TextView) navView.findViewById(R.id.nav_user_full_name);
+
+
+
+
+
+
+
+        requestFriendsRef.addValueEventListener((new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+
+
+                   int  countReqFriends = (int) dataSnapshot.getChildrenCount();
+
+                    txtNReqFriends.setText(Integer.toString(countReqFriends));
+
+                }
+                else {
+                    txtNReqFriends.setText("");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        }));
 
 
         //atualizar foto de perfil e nome de usuário na navbar(puxa do firebase)
@@ -138,9 +194,249 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        aceptNewFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SendUserToFriendsRequestActtivity();
+            }
+        });
+
+
+        searchPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+
+                View v = getLayoutInflater().inflate(R.layout.filter_post, null);
+                final Spinner spCidades = (Spinner) v.findViewById(R.id.spinnerCidade);
+                final Spinner spEstados = (Spinner) v.findViewById(R.id.spinnerEstado);
+
+
+
+                String estados = loadJSONFromAsset(v.getContext());
+
+
+
+                try {
+                    obj = new JSONObject(estados);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+                try {
+                    JSONArray arr =     obj.getJSONArray("estados");
+
+                    List<String> listEstados = new ArrayList<String>();
+                    for (int i = 0; i <= arr.length() -1;i++){
+
+                        listEstados.add(arr.optJSONObject(i).getString("nome").toString());
+
+                    }
+
+                    ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, listEstados);
+
+                    spEstados.setAdapter(adapterSpinner);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+                spEstados.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        indexEstado = i;
+
+                        try {
+                            JSONArray arr = obj.getJSONArray("estados").getJSONObject(i).getJSONArray("cidades");
+
+                            List<String> listCidades = new ArrayList<String>();
+                            for (int j = 0; j < arr.length() -1;j++){
+
+                                listCidades.add(arr.getString(j));
+
+                            }
+
+                            ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, listCidades);
+
+                            spCidades.setAdapter(adapterSpinner);
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+
+
+                builder.setPositiveButton("Aplicar Filtro", new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                       cidade = spCidades.getSelectedItem().toString();
+                       filter = true;
+
+
+
+                        postList = (RecyclerView) findViewById(R.id.all_users_post_list);
+                        postList.setHasFixedSize(true);
+                        linearLayoutManager = new LinearLayoutManager(MainActivity.this);
+                        linearLayoutManager.setReverseLayout(true);
+                        linearLayoutManager.setStackFromEnd(true);
+                        postList.setLayoutManager(linearLayoutManager);
+
+
+                        DisplayAllUsersPosts();
+
+
+                      //  PostsRef = PostsRef.orderByChild("city").startAt(spCidades.getSelectedItem().toString()).endAt(spCidades.getSelectedItem().toString()+"\uf8ff").getRef();
+
+
+
+//                        deposito =  spFiltro.getSelectedItem().toString().split("-")[0].trim();
+//
+//                        adapter = new SeparacaoPedidosArrayAdapter(enderecos,deposito,depositos);
+//                        recyclerView.setLayoutManager(layoutManager);
+//                        adapter.setOnItemClickListener(newListenner);
+//
+//
+//                        recyclerView.setAdapter(adapter);
+
+
+
+                    }
+                });
+
+
+
+                builder.setNeutralButton("Voltar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        filter = false;
+
+
+                    }
+                });
+
+
+
+                builder.setView(v);
+                builder.create();
+                builder.show();
+
+
+
+
+
+            }
+        });
+
         DisplayAllUsersPosts();
 
     }
+
+
+
+//    public boolean onOptionsItemSelected(MenuItem item)  {
+//        int id = item.getItemId();
+//
+//        if (id == R.id.action_filtros) {
+//
+//
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//            View view = this.getLayoutInflater().inflate(R.layout.filtro_separacao_pedidos, null);
+//            final Spinner spFiltro = (Spinner) view.findViewById(R.id.spinner2);
+//            sg.clear();
+//
+//            for(int i = 0; i < depositos.length(); i++ ){
+//
+//                try {
+//                    sg.add(depositos.getJSONObject(i).getString("DEPCOD").toString()+" - "+depositos.getJSONObject(i).getString("DEPNOM").toString());
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//
+//            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+//                    android.R.layout.simple_spinner_item, sg);
+//            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//            spFiltro.setAdapter(arrayAdapter);
+//
+//
+//
+//            builder.setPositiveButton("Aplicar Filtro", new DialogInterface.OnClickListener() {
+//                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                    Toast.makeText(getApplication(), "Filtro", Toast.LENGTH_SHORT).show();
+//
+//                    deposito =  spFiltro.getSelectedItem().toString().split("-")[0].trim();
+//
+//                    adapter = new SeparacaoPedidosArrayAdapter(enderecos,deposito,depositos);
+//                    recyclerView.setLayoutManager(layoutManager);
+//                    adapter.setOnItemClickListener(newListenner);
+//
+//
+//                    recyclerView.setAdapter(adapter);
+//
+//
+//
+//                }
+//            });
+//
+//
+//
+//            builder.setNeutralButton("Voltar", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                    Toast.makeText(getApplication(), "Voltar", Toast.LENGTH_SHORT).show();
+//
+//                }
+//            });
+//
+//
+//
+//            builder.setView(view);
+//            builder.create();
+//
+//
+//
+//            builder.show();
+//
+//
+//
+//
+//        }
+//
+//        return true;
+//    }
+//
+
 
     //atualizar o status(online/offline) do user
     public void updateUserStatus(String state){
@@ -168,7 +464,15 @@ public class MainActivity extends AppCompatActivity {
     private void DisplayAllUsersPosts() {
 
         //organizar postagens na linha do tempo
-        Query SortPostsInDecendingOrder = PostsRef.orderByChild("timestempValue");
+        Query SortPostsInDecendingOrder = null;
+
+        if(!filter){
+            SortPostsInDecendingOrder = PostsRef.orderByChild("timestempValue");
+        }
+        else{
+            SortPostsInDecendingOrder = PostsRef.orderByChild("city").equalTo(cidade);
+        }
+
 
 
         FirebaseRecyclerAdapter<Posts, PostsViewHolder> firebaseRecyclerAdapter =
@@ -188,6 +492,8 @@ public class MainActivity extends AppCompatActivity {
                         viewHolder.setDescription(model.getDescription());
                         viewHolder.setProfileimage(getApplicationContext(), model.getProfileimage());
                         viewHolder.setPostimage(getApplicationContext(), model.getPostimage());
+
+
 
                         try{
                             viewHolder.setState(model.getState());
@@ -507,4 +813,42 @@ public class MainActivity extends AppCompatActivity {
         startActivity(ProfileIntent);
 
     }
+
+    private void SendUserToFriendsRequestActtivity(){
+        Intent friendsRequestIntent = new Intent(this,ActivityFriendsRequest.class);
+        startActivity(friendsRequestIntent);
+    }
+
+
+
+
+
+
+    public String loadJSONFromAsset(Context context) {
+        String json = null;
+        try {
+            InputStream is = this.getAssets().open("CidadesEstados.json");
+
+            int size = is.available();
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+
+        } catch (Exception e) {
+            Log.e("LoadJsonFile",e.getMessage());
+            return null;
+        }
+        return json;
+
+    }
+
+
+
+
 }

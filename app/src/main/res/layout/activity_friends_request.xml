@@ -17,14 +17,14 @@
         android:textStyle="bold"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
-        android:text="Requisições de Amizade" />
+        android:text="Requisições de amizade" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reqFriends_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/all_chats"
+        android:layout_below="@+id/all_reqFriends"
         android:layout_marginTop="15dp" />
 
 </RelativeLayout>
