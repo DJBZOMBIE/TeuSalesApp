@@ -504,8 +504,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                         try{
-                            viewHolder.setState(model.getState());
-                            viewHolder.setCity(model.getCity());
+                            viewHolder.setState(model.getState(),model.getCity());
+//                            viewHolder.setCity();
                             viewHolder.setValue("R$"+ model.value.replace(".",","));
                             viewHolder.setDate(model.getDate());
 
@@ -582,7 +582,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton LikePostButton, CommentPostButton;
         TextView value;
         TextView state;
-        TextView city;
+      //  TextView city;
         TextView DisplayNoOfLikes;
         int countLikes;
         String currentUserId;
@@ -633,17 +633,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        public void setState(String state) {
+        public void setState(String state,String cidade) {
             TextView txtstate = (TextView) mView.findViewById(R.id.post_state);
-            txtstate.setText(state);
+            txtstate.setText(state+" - "+cidade);
         }
 
 
-        public void setCity(String city) {
-            TextView txtcity = (TextView) mView.findViewById(R.id.post_city);
-            txtcity.setText(city);
-
-        }
+//        public void setCity(String city) {
+//            TextView txtcity = (TextView) mView.findViewById(R.id.post_city);
+//            txtcity.setText(city);
+//
+//        }
 
 
 

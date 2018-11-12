@@ -32,7 +32,7 @@ import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ActivityFriendsRequest extends AppCompatActivity {
+public class ActivityFriendsRequest extends AppCompatActivity  {
 
     private RecyclerView myRequestFriendsList;
     private DatabaseReference reqFriendsRef, UsersRef,FriendsRef,allreqFriendsRef;
@@ -50,6 +50,9 @@ public class ActivityFriendsRequest extends AppCompatActivity {
         allreqFriendsRef = FirebaseDatabase.getInstance().getReference().child("FriendRequests");
         FriendsRef = FirebaseDatabase.getInstance().getReference().child("Friends");
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+
+
+
 
 
 

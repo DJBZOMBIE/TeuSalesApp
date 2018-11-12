@@ -17,12 +17,18 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -69,9 +75,47 @@ public class ChatsActivity extends AppCompatActivity {
                         ChatsRef
                 ) {
             @Override
-            protected void populateViewHolder(final ChatsViewHolder viewHolder, Friends model, int position) {
-                viewHolder.setDate(model.getDate());
+            protected void populateViewHolder(final ChatsViewHolder viewHolder, Friends model, final int position) {
+
+
+
+
+
                 final String usersIDs = getRef(position).getKey();
+
+                getRef(position).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        if(dataSnapshot.exists()){
+                            long number = dataSnapshot.getChildrenCount();
+                            Messages messages = dataSnapshot.getValue(Messages.class);
+                            List<Messages> messagesList = new ArrayList<>();
+                            messagesList.add(messages);
+                            int size =   messagesList.size()-1;
+                            viewHolder.setLastMenssage(messagesList.get(size).getMessage().toString());
+                        }
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 //pega o id de cada amigo
                 UsersRef.child(usersIDs).addValueEventListener(new ValueEventListener() {
                     @Override
@@ -135,9 +179,9 @@ public class ChatsActivity extends AppCompatActivity {
             TextView myName = (TextView) mView.findViewById(R.id.all_users_profile_full_name);
             myName.setText(fullname);
         }
-        public void setDate(String date){
-            TextView friendsDate = (TextView) mView.findViewById(R.id.all_users_status);
-            friendsDate.setText("Ultima Mensagem " + date);
+        public void setLastMenssage(String menssage){
+            TextView lastMenssage = (TextView) mView.findViewById(R.id.all_users_status);
+            lastMenssage.setText(menssage);
         }
     }
 
