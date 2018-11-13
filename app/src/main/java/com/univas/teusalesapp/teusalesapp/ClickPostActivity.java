@@ -24,13 +24,13 @@ import com.squareup.picasso.Picasso;
 public class ClickPostActivity extends AppCompatActivity {
 
     private ImageView PostImage;
-    private TextView PostDescription;
+    private TextView PostDescription, txtpostValue;
     private Button DeletePostButton, EditPostButton,negociarPostButton;
 
     private DatabaseReference ClickPostRef;
     private FirebaseAuth mAuth;
 
-    private String PostKey, currentUserID, databaseUserID, description, image,userName,postagem;
+    private String PostKey, currentUserID, databaseUserID, description, image,userName,postagem,postValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,7 @@ public class ClickPostActivity extends AppCompatActivity {
         negociarPostButton= (Button) findViewById(R.id.negociarPost);
         DeletePostButton = (Button) findViewById(R.id.delete_post_button);
         EditPostButton = (Button) findViewById(R.id.edit_post_button);
+        txtpostValue = (TextView) findViewById(R.id.txtValuePost);
 
         DeletePostButton.setVisibility(View.INVISIBLE);
         EditPostButton.setVisibility(View.INVISIBLE);
@@ -59,13 +60,16 @@ public class ClickPostActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                if(dataSnapshot.exists()){
                    description = dataSnapshot.child("description").getValue().toString();
+
                    userName = dataSnapshot.child("fullname").getValue().toString();
                    image = dataSnapshot.child("postimage").getValue().toString();
                    databaseUserID = dataSnapshot.child("uid").getValue().toString(); //pega o id do usuario que fez a postagem
                    postagem = dataSnapshot.child("uid").getValue().toString();
+                   postValue = dataSnapshot.child("value").getValue().toString();
 //                   dataSnapshot.child("uid").getValue().toString();
 
                    PostDescription.setText(description);
+                   txtpostValue.setText("R$ "+postValue);
                    Picasso.with(ClickPostActivity.this).load(image).into(PostImage);
                    //condição para verificar o id do usuario que fez a postagem, se for o id do autor do post, então os botões edit e delete aparecem
                    if(currentUserID.equals(databaseUserID)){

@@ -1,7 +1,10 @@
 package com.univas.teusalesapp.teusalesapp;
 
+import android.app.NotificationManager;
 import android.content.Context;
+import android.media.RingtoneManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,6 +53,7 @@ public class ChatActivity extends AppCompatActivity {
     private String messageReceiverID, messageReceiverName, messageSenderID, saveCurrentDate, saveCurrentTime;
 
     private TextView receiverName, userLastSeen;
+    private String NOTIFICATION_ID;
     private CircleImageView receiverProfileImage;
     private DatabaseReference RootRef, UserRef;
     private FirebaseAuth mAuth;
@@ -61,6 +65,7 @@ public class ChatActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         messageSenderID = mAuth.getCurrentUser().getUid();
+        NOTIFICATION_ID = messageSenderID;
 
         RootRef = FirebaseDatabase.getInstance().getReference();
         UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -87,9 +92,42 @@ public class ChatActivity extends AppCompatActivity {
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Messages messages = dataSnapshot.getValue(Messages.class);
+                        final Messages messages = dataSnapshot.getValue(Messages.class);
                         messagesList.add(messages);
                         messagesAdapter.notifyDataSetChanged();
+
+
+//                        if (messages.getFrom().equals(messageSenderID)) {
+//
+//                            final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//                            UserRef.child(messageSenderID).addValueEventListener(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//
+//                                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChatActivity.this)
+//                                            .setSmallIcon(R.drawable.messages)
+//                                            .setContentTitle("New Message from " + dataSnapshot.child("fullname").getValue().toString())
+//                                            .setContentText(messages.getMessage())
+//                                            .setOnlyAlertOnce(true)
+//                                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+//                                    mBuilder.setAutoCancel(true);
+//                                    mBuilder.setLocalOnly(false);
+//
+//
+//                                    mNotificationManager.notify(Integer.parseInt(NOTIFICATION_ID), mBuilder.build());
+//
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(DatabaseError databaseError) {
+//
+//                                }
+//                            });
+//
+//
+//                        }
                     }
 
                     @Override

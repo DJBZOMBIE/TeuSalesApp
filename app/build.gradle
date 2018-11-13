@@ -32,6 +32,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:11.0.2'
     implementation 'com.google.firebase:firebase-storage:11.0.2'
     implementation 'com.google.android.gms:play-services-auth:11.0.2'
+    implementation 'com.google.firebase:firebase-messaging:11.0.2'
+
 
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'

@@ -69,6 +69,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+        startService(new Intent(this, ECInstanceIDService.class));
+        startService(new Intent(this, ECMessasingService.class));
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
