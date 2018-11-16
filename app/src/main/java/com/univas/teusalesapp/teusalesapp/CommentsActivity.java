@@ -1,11 +1,13 @@
 package com.univas.teusalesapp.teusalesapp;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -105,13 +107,37 @@ public class CommentsActivity extends AppCompatActivity {
                 )
 
 
+
         {
             @Override
-            protected void populateViewHolder(CommentsViewHolder viewHolder, Comments model, int position) {
-                viewHolder.setUsername(model.getUsername());
+            protected void populateViewHolder(final CommentsViewHolder viewHolder, final Comments model, final int position) {
+
+                viewHolder.getMyUserName().setText(model.getUsername());
                 viewHolder.setComment(model.getComment());
                 viewHolder.setDate(model.getDate());
                 viewHolder.setTime(model.getTime());
+
+
+
+                viewHolder.getMyUserName().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String idUserComment = model.getUserId();
+                        if(current_user_id.equals(idUserComment)){
+                            Intent it = new Intent(CommentsActivity.this,ProfileActivity.class);
+                            startActivity(it);
+                        }
+                        else{
+                            Intent profileIntent = new Intent(CommentsActivity.this, PersonProfileActivity.class);
+                            profileIntent.putExtra("visit_user_id", idUserComment); //envia id do user
+                            startActivity(profileIntent);
+                        }
+
+
+                    }
+                });
+
+
             }
 
 
@@ -138,17 +164,23 @@ public class CommentsActivity extends AppCompatActivity {
     //static class suporte para o RecyclerView
     public static class CommentsViewHolder extends RecyclerView.ViewHolder{
         View mView;
+        TextView myUserName;
+
+        public TextView getMyUserName() {
+            return myUserName;
+        }
 
         public CommentsViewHolder(View itemView) {
             super(itemView);
 
             mView = itemView;
+            myUserName = (TextView) mView.findViewById(R.id.comment_username);
         }
 
-        public void setUsername(String username){
-            TextView myUserName = (TextView) mView.findViewById(R.id.comment_username);
-            myUserName.setText("@"+username+" ");
-        }
+//        public void setUsername(String username){
+//
+//            myUserName.setText("@"+username+" ");
+//        }
 
         public void setComment(String comment){
             TextView myComment = (TextView) mView.findViewById(R.id.comment_text);

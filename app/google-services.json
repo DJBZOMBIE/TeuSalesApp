@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "225141830729-1kbhbp3ahj3fo4dddo51t4b1ru9bpn0l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.univas.teusalesapp.teusalesapp",
+            "certificate_hash": "b5a13a3c47622f53f97fa046143bfcbb126a5750"
+          }
+        },
+        {
           "client_id": "225141830729-s2kruq3an896ovcupkabifrkcdk9kf0u.apps.googleusercontent.com",
           "client_type": 3
         }

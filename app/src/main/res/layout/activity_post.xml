@@ -33,7 +33,8 @@
         android:ems="10"
         android:hint="0,00"
         android:inputType="numberDecimal"
-        android:padding="15dp" />
+        android:padding="15dp"
+        />
 
     <EditText
         android:id="@+id/post_description"

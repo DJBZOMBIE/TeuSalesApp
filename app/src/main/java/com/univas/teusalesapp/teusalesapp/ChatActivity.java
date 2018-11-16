@@ -97,6 +97,10 @@ public class ChatActivity extends AppCompatActivity {
                         messagesAdapter.notifyDataSetChanged();
 
 
+
+
+
+
 //                        if (messages.getFrom().equals(messageSenderID)) {
 //
 //                            final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

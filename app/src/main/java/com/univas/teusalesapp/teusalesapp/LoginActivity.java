@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                         new FacebookCallback<LoginResult>() {
                             @Override
                             public void onSuccess(LoginResult loginResult) {
-                                Toast.makeText(LoginActivity.this,String.valueOf(loginResult.getAccessToken()),Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(LoginActivity.this,String.valueOf(loginResult.getAccessToken()),Toast.LENGTH_SHORT).show();
                                 handleFacebookAccessToken(loginResult.getAccessToken());
 
                             }
@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(this.getResources().getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 

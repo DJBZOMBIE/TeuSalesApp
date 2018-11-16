@@ -206,9 +206,11 @@ public class PostActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if(task.isSuccessful()){
-                                        SendUserToMainActivity();
+//                                        SendUserToMainActivity();
                                         Toast.makeText(PostActivity.this, "Novo post realizado!", Toast.LENGTH_SHORT).show();
                                         loadingBar.dismiss();
+                                        finish();
+
                                     }else{
                                         Toast.makeText(PostActivity.this, "Ocorreu um erro durante a atualização da postagem.", Toast.LENGTH_SHORT).show();
                                         loadingBar.dismiss();
@@ -250,7 +252,8 @@ public class PostActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == android.R.id.home){
-            SendUserToMainActivity();
+          //  SendUserToMainActivity();
+            finish();;
         }
         return super.onOptionsItemSelected(item);
     }

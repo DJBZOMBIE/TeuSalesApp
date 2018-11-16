@@ -82,6 +82,7 @@ public class MyPostsActivity extends AppCompatActivity {
                 viewHolder.setFullname(model.getFullname());
                 viewHolder.setTime(model.getTime());
                 viewHolder.setDate(model.getDate());
+                viewHolder.setValue("R$"+ model.value.replace(".",","));
 
 
                 viewHolder.setState(model.getState(),model.getCity());
@@ -150,6 +151,7 @@ public class MyPostsActivity extends AppCompatActivity {
         ImageButton LikePostButton, CommentPostButton;
         TextView DisplayNoOfLikes;
         TextView state;
+        TextView value;
         int countLikes;
         String currentUserId;
         DatabaseReference LikesRefe;
@@ -171,6 +173,11 @@ public class MyPostsActivity extends AppCompatActivity {
             txtstate.setText(state+" - "+cidade);
         }
 
+
+        public void setValue(String value) {
+            TextView txtvalue = (TextView) mView.findViewById(R.id.post_value_main);
+            txtvalue.setText(value);
+        }
 
         public void setLikeButtonStatus(final String PostKey){
             LikesRefe.addValueEventListener(new ValueEventListener() {

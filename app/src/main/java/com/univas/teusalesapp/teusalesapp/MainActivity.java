@@ -490,7 +490,7 @@ public class MainActivity extends AppCompatActivity {
                         )
                 {
                     @Override
-                    protected void populateViewHolder(PostsViewHolder viewHolder, Posts model, int position) {
+                    protected void populateViewHolder(PostsViewHolder viewHolder, final Posts model, int position) {
 
 
 
@@ -498,8 +498,24 @@ public class MainActivity extends AppCompatActivity {
                         viewHolder.setFullname(model.getFullname());
                         viewHolder.setTime(model.getTime());
                         viewHolder.setDescription(model.getDescription());
-                        viewHolder.setProfileimage(getApplicationContext(), model.getProfileimage());
+                        //viewHolder.setProfileimage(getApplicationContext(), model.getProfileimage());
+                        Picasso.with(getApplicationContext()).load(model.getProfileimage()).into(viewHolder.getImage());
                         viewHolder.setPostimage(getApplicationContext(), model.getPostimage());
+
+
+                        viewHolder.getImage().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(currentUserID.equals(model.getUid())){
+                                    Intent it = new Intent(MainActivity.this,ProfileActivity.class);
+                                    startActivity(it);
+                                }else{
+                                    Intent it = new Intent(MainActivity.this,PersonProfileActivity.class);
+                                    it.putExtra("visit_user_id",model.getUid());
+                                    startActivity(it);
+                                }
+                            }
+                        });
 
 
 
@@ -586,7 +602,8 @@ public class MainActivity extends AppCompatActivity {
         TextView DisplayNoOfLikes;
         int countLikes;
         String currentUserId;
-        DatabaseReference LikesRefe;
+        DatabaseReference LikesRefe;;
+        CircleImageView image;
 
         public PostsViewHolder(View itemView){
             super(itemView);
@@ -598,6 +615,15 @@ public class MainActivity extends AppCompatActivity {
 
             LikesRefe = FirebaseDatabase.getInstance().getReference().child("Likes");
             currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            image = (CircleImageView) mView.findViewById(R.id.post_profile_image);
+
+
+//            public void setProfileimage(Context ctx, String profileimage){
+//                CircleImageView image = (CircleImageView) mView.findViewById(R.id.post_profile_image);
+//                Picasso.with(ctx).load(profileimage).into(image);
+//            }
+
         }
 
         //status do botao/coração like(cor)
@@ -646,16 +672,15 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
 
+        public CircleImageView getImage() {
+            return image;
+        }
 
         public void setFullname(String fullname){
             TextView username = (TextView) mView.findViewById(R.id.post_user_name);
             username.setText(fullname);
         }
 
-        public void setProfileimage(Context ctx, String profileimage){
-            CircleImageView image = (CircleImageView) mView.findViewById(R.id.post_profile_image);
-            Picasso.with(ctx).load(profileimage).into(image);
-        }
 
         public void setTime(String time){
             TextView PostTime = (TextView) mView.findViewById(R.id.post_time);
@@ -703,11 +728,15 @@ public class MainActivity extends AppCompatActivity {
     private void CheckUserExistence() {
         final String current_user_id = mAuth.getCurrentUser().getUid();
 
-        UsersRef.addValueEventListener(new ValueEventListener() {
+        UsersRef.child(current_user_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.hasChild(current_user_id)){ //se o registro do usuário não existe no "firebase real-time database". OBS: Validação mais importante do APP
-                    SendUserToSetupActivity(); //envia o usuário para setup activity
+                if(dataSnapshot.exists()){ //se o registro do usuário não existe no "firebase real-time database". OBS: Validação mais importante do APP
+
+                    if(!dataSnapshot.hasChild("username")){
+                        SendUserToSetupActivity();
+                    }
+                     //envia o usuário para setup activity
                 }
             }
 
