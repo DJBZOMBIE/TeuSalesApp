@@ -2,6 +2,7 @@ package com.univas.teusalesapp.teusalesapp;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.text.TextWatcher;
 import android.media.Image;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -74,12 +76,15 @@ public class PostActivity extends AppCompatActivity {
         postValue = (EditText) findViewById(R.id.post_value);
         loadingBar = new ProgressDialog(this);
 
+        postValue.addTextChangedListener(Mask.insert(Mask.MONEY,postValue));
+
 
         mToolbar = (Toolbar) findViewById(R.id.update_post_page_toolbar);
         setSupportActionBar(mToolbar); //importar: android.support.v7.widget.Toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Adicionar Postagem");
+
 
 
         SelectPostImage.setOnClickListener(new View.OnClickListener() {

@@ -153,9 +153,10 @@
                android:layout_below="@+id/txtDataNascimento"
                android:background="@drawable/inputs"
                android:hint="Data de nascimento"
+               android:inputType="number"
                android:padding="12dp"
                android:textColor="@android:color/background_dark"
-               android:textStyle="bold"/>
+               android:textStyle="bold" />
 
            <TextView
                android:id="@+id/txtGenero"

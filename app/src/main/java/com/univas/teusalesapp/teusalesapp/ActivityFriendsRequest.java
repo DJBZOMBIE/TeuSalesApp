@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -152,6 +153,11 @@ public class ActivityFriendsRequest extends AppCompatActivity  {
                             else {
 
 
+                                viewHolder.getLlResquestFriends().setVisibility(View.GONE);
+
+
+
+
                             }
                         }
 
@@ -228,13 +234,20 @@ public class ActivityFriendsRequest extends AppCompatActivity  {
         ImageView onlineStatusView;
         Button btnAcept;
         Button btnCancel;
+        LinearLayout llResquestFriends;
         public fRequestViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
             onlineStatusView = (ImageView) itemView.findViewById(R.id.reqF_user_online_icon_req);
             btnAcept = (Button) itemView.findViewById(R.id.reqF__acept_friend_request);
             btnCancel = (Button) itemView.findViewById(R.id.reqF_decline_friend_request);
+            llResquestFriends = (LinearLayout) itemView.findViewById(R.id.llResquestFriends);
         }
+
+        public LinearLayout getLlResquestFriends() {
+            return llResquestFriends;
+        }
+
         public void setProfileimage(Context ctx, String profileimage){
             CircleImageView myImage = (CircleImageView) mView.findViewById(R.id.reqF_users_profile_image);
             Picasso.with(ctx).load(profileimage).placeholder(R.drawable.profile).into(myImage);

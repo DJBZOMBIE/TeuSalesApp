@@ -107,6 +107,10 @@ public class SettingsActivity extends AppCompatActivity {
         UpdateAccountSettingsButton = (Button) findViewById(R.id.update_account_settings_buttons);
 
 
+        userDOB.addTextChangedListener(Mask.insert(Mask.DATA_NASCIMENTO,userDOB));
+
+
+
         spEstado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

@@ -34,7 +34,7 @@
         android:hint="0,00"
         android:inputType="numberDecimal"
         android:padding="15dp"
-        />
+        android:textAlignment="viewStart" />
 
     <EditText
         android:id="@+id/post_description"
