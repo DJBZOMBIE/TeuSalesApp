@@ -1,19 +1,13 @@
 package com.univas.teusalesapp.teusalesapp;
 
-<<<<<<< HEAD
 import android.content.Intent;
-=======
->>>>>>> master
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-<<<<<<< HEAD
 import android.util.Log;
-=======
->>>>>>> master
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,10 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-<<<<<<< HEAD
 import com.google.firebase.database.Query;
-=======
->>>>>>> master
 import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
@@ -46,11 +37,7 @@ public class CommentsActivity extends AppCompatActivity {
     private RecyclerView CommentsList;
     private ImageButton PostCommentButton;
     private EditText CommentInputText;
-<<<<<<< HEAD
     private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-=======
-
->>>>>>> master
     private DatabaseReference UsersRef, PostsRef;
     private FirebaseAuth mAuth;
 
@@ -108,19 +95,15 @@ public class CommentsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-<<<<<<< HEAD
         Query SortPostsComments = PostsRef.orderByChild("timestempValue");
 
         final FirebaseRecyclerAdapter<Comments, CommentsViewHolder> firebaseRecyclerAdapter
-=======
         FirebaseRecyclerAdapter<Comments, CommentsViewHolder> firebaseRecyclerAdapter
->>>>>>> master
                 = new FirebaseRecyclerAdapter<Comments, CommentsViewHolder>
                 (
                         Comments.class,
                         R.layout.all_comments_layout,
                         CommentsViewHolder.class,
-<<<<<<< HEAD
                         SortPostsComments
                 )
 
@@ -176,7 +159,6 @@ public class CommentsActivity extends AppCompatActivity {
             }
         });
 
-=======
                         PostsRef
                 )
         {
@@ -189,27 +171,22 @@ public class CommentsActivity extends AppCompatActivity {
             }
         };
 
->>>>>>> master
         CommentsList.setAdapter(firebaseRecyclerAdapter);
     }
 
     //static class suporte para o RecyclerView
     public static class CommentsViewHolder extends RecyclerView.ViewHolder{
         View mView;
-<<<<<<< HEAD
         TextView myUserName;
 
         public TextView getMyUserName() {
             return myUserName;
         }
-=======
->>>>>>> master
 
         public CommentsViewHolder(View itemView) {
             super(itemView);
 
             mView = itemView;
-<<<<<<< HEAD
             myUserName = (TextView) mView.findViewById(R.id.comment_username);
         }
 
@@ -217,14 +194,12 @@ public class CommentsActivity extends AppCompatActivity {
 //
 //            myUserName.setText("@"+username+" ");
 //        }
-=======
         }
 
         public void setUsername(String username){
             TextView myUserName = (TextView) mView.findViewById(R.id.comment_username);
             myUserName.setText("@"+username+" ");
         }
->>>>>>> master
 
         public void setComment(String comment){
             TextView myComment = (TextView) mView.findViewById(R.id.comment_text);
@@ -259,11 +234,8 @@ public class CommentsActivity extends AppCompatActivity {
 
             final String RandomKey = current_user_id + saveCurrentDate + saveCurrentTime; //chave aleatória
 
-<<<<<<< HEAD
             String nowt = String.valueOf(System.currentTimeMillis());
 
-=======
->>>>>>> master
             //salvar comentário no banco
             HashMap commentsMap = new HashMap();
                 commentsMap.put("uid", current_user_id);
@@ -271,10 +243,7 @@ public class CommentsActivity extends AppCompatActivity {
                 commentsMap.put("date", saveCurrentDate);
                 commentsMap.put("time", saveCurrentTime);
                 commentsMap.put("username", userName);
-<<<<<<< HEAD
                 commentsMap.put("timestempValue",nowt);
-=======
->>>>>>> master
                 
             PostsRef.child(RandomKey).updateChildren(commentsMap)  //no banco de dados a var PostsRef(subTabela "Comments"), é filha da tabela "Posts"
                     .addOnCompleteListener(new OnCompleteListener() {
