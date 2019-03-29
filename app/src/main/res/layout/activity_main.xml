@@ -34,6 +34,37 @@
                 android:layout_height="match_parent" />
         </FrameLayout>
 
+
+        <ImageButton
+            android:id="@+id/aceptReqFriends"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignBottom="@+id/main_page_toolbar"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/newfriendrequest"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="140dp"
+            android:background="@color/colorPrimaryDark"
+            android:baselineAlignBottom="false"
+            android:focusableInTouchMode="false"/>
+
+        <TextView
+            android:id="@+id/txtNumberReqF"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+
+            android:layout_alignBottom="@+id/main_page_toolbar"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="140dp"
+            android:scaleType="centerCrop"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold" />
+
+
+
+
         <ImageButton
             android:id="@+id/add_new_post_button"
             android:layout_width="48dp"
@@ -41,6 +72,20 @@
             android:layout_alignBottom="@+id/main_page_toolbar"
             android:layout_alignParentEnd="true"
             android:src="@drawable/add_post_high"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="70dp"
+            android:background="@color/colorPrimaryDark"
+            android:baselineAlignBottom="false"
+            android:focusableInTouchMode="false"/>
+
+        <ImageButton
+            android:id="@+id/searchPost"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignBottom="@+id/main_page_toolbar"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/searchnew"
             android:scaleType="centerCrop"
             android:layout_marginBottom="4dp"
             android:layout_marginRight="12dp"

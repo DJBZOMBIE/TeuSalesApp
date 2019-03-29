@@ -25,12 +25,15 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-
     implementation 'com.firebaseui:firebase-ui-database:2.1.1'
     implementation 'com.google.firebase:firebase-auth:11.0.2'
+    implementation 'com.facebook.android:facebook-login:[4,5)'
     implementation 'com.google.firebase:firebase-database:11.0.2'
     implementation 'com.google.firebase:firebase-storage:11.0.2'
     implementation 'com.google.android.gms:play-services-auth:11.0.2'
+    implementation 'com.google.firebase:firebase-messaging:11.0.2'
+
+
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'

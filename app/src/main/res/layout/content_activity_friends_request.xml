@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llResquestFriends"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@color/colorProfile">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/reqF_users_profile_image"
+        android:layout_width="45dp"
+        android:layout_height="85dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/profile" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/reqF_users_profile_full_name"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:text="Nome: "
+                android:textAlignment="textStart"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/reqF_user_online_icon_req"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/online"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/reqF_users_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status: "
+            android:textAlignment="textStart"
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/reqF__acept_friend_request"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/reqF_users_status"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:text="Aceitar solicitação"
+                android:textColor="@android:color/background_light"
+                android:textSize="13dp" />
+
+            <Button
+                android:id="@+id/reqF_decline_friend_request"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/reqF_users_status"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="Cancelar solicitação"
+                android:textColor="@android:color/background_light"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

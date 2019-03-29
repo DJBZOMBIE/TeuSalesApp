@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/my_profile_username"
                 android:layout_marginTop="5dp"
-                android:text="Olá, eu estou usando o TeuSales app."
+                android:text="Olá, eu estou usando o E-Commex app."
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@android:color/darker_gray"
@@ -75,10 +75,32 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/my_dob"
+                android:id="@+id/my_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/my_country"
+                android:text="Estado:"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/my_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_state"
+                android:text="Cidade:"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/my_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_city"
                 android:layout_marginTop="2dp"
                 android:text="Data de Nascimento"
                 android:textAlignment="center"

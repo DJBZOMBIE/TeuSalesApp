@@ -82,6 +82,14 @@ public class MyPostsActivity extends AppCompatActivity {
                 viewHolder.setFullname(model.getFullname());
                 viewHolder.setTime(model.getTime());
                 viewHolder.setDate(model.getDate());
+<<<<<<< HEAD
+                viewHolder.setValue("R$"+ model.value.replace(".",","));
+
+
+                viewHolder.setState(model.getState(),model.getCity());
+
+=======
+>>>>>>> master
                 viewHolder.setDescription(model.getDescription());
                 viewHolder.setProfileimage(getApplicationContext(), model.getProfileimage());
                 viewHolder.setPostimage(getApplicationContext(), model.getPostimage());
@@ -145,6 +153,11 @@ public class MyPostsActivity extends AppCompatActivity {
         View mView;
         ImageButton LikePostButton, CommentPostButton;
         TextView DisplayNoOfLikes;
+<<<<<<< HEAD
+        TextView state;
+        TextView value;
+=======
+>>>>>>> master
         int countLikes;
         String currentUserId;
         DatabaseReference LikesRefe;
@@ -158,6 +171,21 @@ public class MyPostsActivity extends AppCompatActivity {
 
             LikesRefe = FirebaseDatabase.getInstance().getReference().child("Likes");
             currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+<<<<<<< HEAD
+
+        }
+
+        public void setState(String state,String cidade) {
+            TextView txtstate = (TextView) mView.findViewById(R.id.post_state);
+            txtstate.setText(state+" - "+cidade);
+        }
+
+
+        public void setValue(String value) {
+            TextView txtvalue = (TextView) mView.findViewById(R.id.post_value_main);
+            txtvalue.setText(value);
+=======
+>>>>>>> master
         }
 
         public void setLikeButtonStatus(final String PostKey){

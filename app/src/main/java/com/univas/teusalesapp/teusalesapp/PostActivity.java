@@ -2,6 +2,7 @@ package com.univas.teusalesapp.teusalesapp;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.text.TextWatcher;
 import android.media.Image;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -9,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,6 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -39,12 +43,13 @@ public class PostActivity extends AppCompatActivity {
     private ProgressDialog loadingBar;
 
     private ImageButton SelectPostImage;
-    private Button UpdatePostButton;
-    private EditText PostDescription;
+    private Button updatePostButton;
+    private EditText PostDescription,postValue;
 
     private static final int Gallery_Pick = 1;
     private Uri ImageUri;
     private String Description;
+    private String value;
 
     private StorageReference PostsImagesRefrence;
     private DatabaseReference UsersRef, PostsRef;
@@ -66,9 +71,12 @@ public class PostActivity extends AppCompatActivity {
         PostsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
 
         SelectPostImage = (ImageButton) findViewById(R.id.select_post_image);
-        UpdatePostButton = (Button) findViewById(R.id.update_post_button);
+        updatePostButton = (Button) findViewById(R.id.update_post_button);
         PostDescription = (EditText) findViewById(R.id.post_description);
+        postValue = (EditText) findViewById(R.id.post_value);
         loadingBar = new ProgressDialog(this);
+
+        postValue.addTextChangedListener(Mask.insert(Mask.MONEY,postValue));
 
 
         mToolbar = (Toolbar) findViewById(R.id.update_post_page_toolbar);
@@ -78,6 +86,7 @@ public class PostActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Adicionar Postagem");
 
 
+
         SelectPostImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +94,7 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-        UpdatePostButton.setOnClickListener(new View.OnClickListener() {
+        updatePostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ValidatePostInfo();
@@ -96,6 +105,7 @@ public class PostActivity extends AppCompatActivity {
 
     private void ValidatePostInfo() {
         Description = PostDescription.getText().toString();
+        value =  postValue.getText().toString();
         if(ImageUri == null){
             Toast.makeText(this, "Por favor, selecione uma imagem para postar", Toast.LENGTH_SHORT).show();
         }
@@ -165,8 +175,21 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
+                    String nowt = String.valueOf(System.currentTimeMillis());
                     String userFullName = dataSnapshot.child("fullname").getValue().toString();
-                    String userProfileImage = dataSnapshot.child("profileimage").getValue().toString();
+                    String userProfileImage = "";
+                    String state = "";
+                    String city = "";
+
+                    try{
+                        state = dataSnapshot.child("state").getValue().toString();
+                        city = dataSnapshot.child("city").getValue().toString();
+                        userProfileImage = dataSnapshot.child("profileimage").getValue().toString();
+                    }catch (Exception e ){
+                        Log.e("Post",e.getMessage());
+                    }
+
+
 
                     //salvar post information
                     HashMap postsMap = new HashMap();
@@ -178,15 +201,24 @@ public class PostActivity extends AppCompatActivity {
                     postsMap.put("profileimage", userProfileImage);
                     postsMap.put("fullname", userFullName);
                     postsMap.put("counter", countPosts);
+<<<<<<< HEAD
+                    postsMap.put("state",state);
+                    postsMap.put("city",city);
+                    postsMap.put("value",value);
+                    postsMap.put("timestempValue",nowt);
+=======
+>>>>>>> master
 
                     PostsRef.child(current_user_id + postRandomName).updateChildren(postsMap) //realiza post e cria um id único para o post do usuario
                             .addOnCompleteListener(new OnCompleteListener() {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if(task.isSuccessful()){
-                                        SendUserToMainActivity();
+//                                        SendUserToMainActivity();
                                         Toast.makeText(PostActivity.this, "Novo post realizado!", Toast.LENGTH_SHORT).show();
                                         loadingBar.dismiss();
+                                        finish();
+
                                     }else{
                                         Toast.makeText(PostActivity.this, "Ocorreu um erro durante a atualização da postagem.", Toast.LENGTH_SHORT).show();
                                         loadingBar.dismiss();
@@ -228,7 +260,8 @@ public class PostActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == android.R.id.home){
-            SendUserToMainActivity();
+          //  SendUserToMainActivity();
+            finish();;
         }
         return super.onOptionsItemSelected(item);
     }

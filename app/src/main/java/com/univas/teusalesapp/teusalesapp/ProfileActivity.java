@@ -3,6 +3,10 @@ package com.univas.teusalesapp.teusalesapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+<<<<<<< HEAD
+import android.util.Log;
+=======
+>>>>>>> master
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +20,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.sql.Timestamp;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView userName, userProfName, userStatus, userCountry, userGender, userRelation, userDOB;
+    private TextView userName, userProfName, userStatus, userCountry,userState,userCity, userGender, userRelation, userDOB;
     private CircleImageView userProfileImage;
 
     private DatabaseReference profileUserRef, FriendsRef, PostsRef;
@@ -42,9 +48,12 @@ public class ProfileActivity extends AppCompatActivity {
         PostsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
 
         userName = (TextView) findViewById(R.id.my_profile_username);
+
         userProfName = (TextView) findViewById(R.id.my_profile_full_name);
         userStatus = (TextView) findViewById(R.id.my_profile_status);
         userCountry = (TextView) findViewById(R.id.my_country);
+        userState = (TextView) findViewById(R.id.my_state);
+        userCity = (TextView) findViewById(R.id.my_city);
         userGender = (TextView) findViewById(R.id.my_gender);
         userRelation = (TextView) findViewById(R.id.my_relationship_status);
         userDOB = (TextView) findViewById(R.id.my_dob);
@@ -110,25 +119,42 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
-                    //listar dados (codigo reaproveitado da classe SettingsActivity)
-                    String myProfileImage = dataSnapshot.child("profileimage").getValue().toString();
-                    String myUserName = dataSnapshot.child("username").getValue().toString();
-                    String myProfileName = dataSnapshot.child("fullname").getValue().toString();
-                    String myProfileStatus = dataSnapshot.child("status").getValue().toString();
-                    String myDOB = dataSnapshot.child("dob").getValue().toString();
-                    String myCountry = dataSnapshot.child("country").getValue().toString();
-                    String myGender = dataSnapshot.child("gender").getValue().toString();
-                    String myRelationStatus = dataSnapshot.child("relationshipstatus").getValue().toString();
 
-                    Picasso.with(ProfileActivity.this).load(myProfileImage).placeholder(R.drawable.profile).into(userProfileImage);
+                    try {
 
-                    userName.setText("@" + myUserName);
-                    userProfName.setText(myProfileName);
-                    userStatus.setText(myProfileStatus);
-                    userDOB.setText("DDN: " + myDOB);
-                    userCountry.setText("País: " + myCountry);
-                    userGender.setText("Gênero: " + myGender);
-                    userRelation.setText("Relacionamento: " + myRelationStatus);
+                        Timestamp t = new Timestamp(System.currentTimeMillis());
+
+
+
+                        //listar dados (codigo reaproveitado da classe SettingsActivity)
+                        String now  = t.toString();
+                        String myProfileImage = dataSnapshot.child("profileimage").getValue().toString();
+                        String myUserName = dataSnapshot.child("username").getValue().toString();
+                        String myProfileName = dataSnapshot.child("fullname").getValue().toString();
+                        String myProfileStatus = dataSnapshot.child("status").getValue().toString();
+                        String myDOB = dataSnapshot.child("dob").getValue().toString();
+                        String myCountry = dataSnapshot.child("country").getValue().toString();
+                        String myState = dataSnapshot.child("state").getValue().toString();
+                        String myCity = dataSnapshot.child("city").getValue().toString();
+                        String myGender = dataSnapshot.child("gender").getValue().toString();
+                        String myRelationStatus = dataSnapshot.child("relationshipstatus").getValue().toString();
+
+                        Picasso.with(ProfileActivity.this).load(myProfileImage).placeholder(R.drawable.profile).into(userProfileImage);
+
+                        userName.setText("@" + myUserName);
+                        userProfName.setText(myProfileName);
+                        userStatus.setText(myProfileStatus);
+                        userDOB.setText("DDN: " + myDOB);
+                        userCountry.setText("País: " + myCountry);
+                        userState.setText("Estado: "+myState);
+                        userCity.setText("Cidade: "+myCity);
+                        userGender.setText("Gênero: " + myGender);
+                        userRelation.setText("Relacionamento: " + myRelationStatus);
+
+                    }catch (Exception e){
+                        Log.e("Profile",e.getMessage());
+                    }
+
                 }
 
             }

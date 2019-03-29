@@ -40,102 +40,161 @@
                android:layout_marginLeft="40dp"
                android:layout_marginRight="40dp"
                android:layout_marginTop="4dp"
-               android:background="@drawable/inputs"
                android:hint="Status do perfil"
                android:padding="30dp"
                android:textColor="@android:color/background_dark"
                android:textSize="20sp"
-               android:textStyle="bold"/>
+               android:textStyle="bold" />
+
+           <TextView
+               android:id="@+id/txtNomeUsuario"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/settings_status"
+               android:text="Nome Usuário:"
+               android:textStyle="bold" />
 
            <EditText
                android:id="@+id/settings_username"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_below="@+id/settings_status"
-               android:layout_marginLeft="10dp"
-               android:layout_marginRight="10dp"
-               android:layout_marginTop="30dp"
+               android:layout_below="@+id/txtNomeUsuario"
                android:background="@drawable/inputs"
-               android:hint="Nome de usuário"
+               android:hint="Usuário"
                android:padding="12dp"
                android:textColor="@android:color/background_dark"
-               android:textSize="20sp"
-               android:textStyle="bold"/>
+               android:textStyle="bold" />
+           <TextView
+               android:id="@+id/txtNomeCompleto"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/settings_username"
+               android:text="Nome Completo:"
+               android:textStyle="bold" />
 
            <EditText
                android:id="@+id/settings_profile_full_name"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_below="@+id/settings_username"
-               android:layout_marginLeft="10dp"
-               android:layout_marginRight="10dp"
-               android:layout_marginTop="6dp"
+               android:layout_below="@+id/txtNomeCompleto"
                android:background="@drawable/inputs"
                android:hint="Nome completo"
                android:padding="12dp"
                android:textColor="@android:color/background_dark"
-               android:textSize="20sp"
-               android:textStyle="bold"/>
+               android:textStyle="bold" />
+
+           <TextView
+               android:id="@+id/txtPais"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/settings_profile_full_name"
+               android:text="País:"
+               android:textStyle="bold" />
 
            <EditText
                android:id="@+id/settings_country"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_below="@+id/settings_profile_full_name"
-               android:layout_marginLeft="10dp"
-               android:layout_marginRight="10dp"
-               android:layout_marginTop="6dp"
+               android:layout_below="@+id/txtPais"
                android:background="@drawable/inputs"
+               android:enabled="false"
                android:hint="País"
                android:padding="12dp"
+               android:text="Brasil"
                android:textColor="@android:color/background_dark"
-               android:textSize="20sp"
-               android:textStyle="bold"/>
+               android:textStyle="bold" />
+
+
+           <TextView
+               android:id="@+id/txtEstado"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/settings_country"
+               android:text="Estado:"
+               android:textStyle="bold" />
+
+           <Spinner
+               android:id="@+id/sp_estado"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@drawable/inputs"
+               android:textStyle="bold"
+               android:layout_below="@+id/txtEstado" />
+
+           <TextView
+               android:id="@+id/txtCidade"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/sp_estado"
+               android:text="Município:"
+               android:textStyle="bold" />
+
+           <Spinner
+               android:id="@+id/sp_cidade"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@drawable/inputs"
+
+               android:textStyle="bold"
+               android:layout_below="@+id/txtCidade" />
+
+           <TextView
+               android:id="@+id/txtDataNascimento"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/sp_cidade"
+               android:text="Data de nascimento:"
+               android:textStyle="bold" />
 
            <EditText
                android:id="@+id/settings_dob"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_below="@+id/settings_country"
-               android:layout_marginLeft="10dp"
-               android:layout_marginRight="10dp"
-               android:layout_marginTop="6dp"
+               android:layout_below="@+id/txtDataNascimento"
                android:background="@drawable/inputs"
                android:hint="Data de nascimento"
+               android:inputType="number"
                android:padding="12dp"
                android:textColor="@android:color/background_dark"
-               android:textSize="20sp"
-               android:textStyle="bold"/>
+               android:textStyle="bold" />
+
+           <TextView
+               android:id="@+id/txtGenero"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/settings_dob"
+               android:text="Genero:"
+               android:textStyle="bold" />
 
            <EditText
                android:id="@+id/settings_gender"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_below="@+id/settings_dob"
-               android:layout_marginLeft="10dp"
-               android:layout_marginRight="10dp"
-               android:layout_marginTop="6dp"
+               android:layout_below="@+id/txtGenero"
                android:background="@drawable/inputs"
                android:hint="Gênero"
                android:padding="12dp"
-               android:textColor="@android:color/background_dark"
-               android:textSize="20sp"
-               android:textStyle="bold"/>
+               android:textColor="@android:color/background_dark" />
+
+
+           <TextView
+               android:id="@+id/txtRelacionamento"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/settings_gender"
+               android:text="Status de relacionamento:"
+               android:textStyle="bold" />
 
            <EditText
                android:id="@+id/settings_relationship_status"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_below="@+id/settings_gender"
-               android:layout_marginLeft="10dp"
-               android:layout_marginRight="10dp"
-               android:layout_marginTop="6dp"
+               android:layout_below="@+id/txtRelacionamento"
                android:background="@drawable/inputs"
                android:hint="Status de relacionamento"
+               android:textStyle="bold"
                android:padding="12dp"
-               android:textColor="@android:color/background_dark"
-               android:textSize="20sp"
-               android:textStyle="bold"/>
+               android:textColor="@android:color/background_dark" />
 
            <Button
                android:id="@+id/update_account_settings_buttons"
