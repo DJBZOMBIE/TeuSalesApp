@@ -104,19 +104,11 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
             }
 
         }
-<<<<<<< HEAD
-
-
 
     }
 
-
-
-
-=======
     }
 
->>>>>>> master
     @Override
     public int getItemCount() {
         return userMessagesList.size();
