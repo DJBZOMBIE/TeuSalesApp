@@ -201,10 +201,13 @@ public class PostActivity extends AppCompatActivity {
                     postsMap.put("profileimage", userProfileImage);
                     postsMap.put("fullname", userFullName);
                     postsMap.put("counter", countPosts);
+<<<<<<< HEAD
                     postsMap.put("state",state);
                     postsMap.put("city",city);
                     postsMap.put("value",value);
                     postsMap.put("timestempValue",nowt);
+=======
+>>>>>>> master
 
                     PostsRef.child(current_user_id + postRandomName).updateChildren(postsMap) //realiza post e cria um id único para o post do usuario
                             .addOnCompleteListener(new OnCompleteListener() {

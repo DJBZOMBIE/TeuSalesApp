@@ -432,6 +432,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+<<<<<<< HEAD
     public String loadJSONFromAsset(Context context) {
         String json = null;
         try {
@@ -456,4 +457,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+=======
+>>>>>>> master
 }

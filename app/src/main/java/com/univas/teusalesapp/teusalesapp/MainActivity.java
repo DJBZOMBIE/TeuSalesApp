@@ -4,7 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+<<<<<<< HEAD
 import android.os.Build;
+=======
+>>>>>>> master
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
@@ -39,6 +42,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+<<<<<<< HEAD
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +53,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+=======
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+>>>>>>> master
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -79,13 +88,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     private FirebaseAuth mAuth;
+<<<<<<< HEAD
     private DatabaseReference UsersRef, PostsRef, LikesRef,requestFriendsRef;
+=======
+    private DatabaseReference UsersRef, PostsRef, LikesRef;
+>>>>>>> master
 
     String currentUserID;
     Boolean LikeChecker = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+<<<<<<< HEAD
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
@@ -151,6 +165,53 @@ public class MainActivity extends AppCompatActivity {
 
                         txtNReqFriends.setText(countReqf> 0 ?Integer.toString(countReqf) : "");
 
+=======
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //Firebase
+        mAuth = FirebaseAuth.getInstance();
+        currentUserID = mAuth.getCurrentUser().getUid();
+        UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        PostsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
+        LikesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
+
+        //inicializar layouts: nav, drawer, toolbar, etc ...
+        mTollbar = (Toolbar) findViewById(R.id.main_page_toolbar);
+        setSupportActionBar(mTollbar ); //add tollbar na mainActivity
+        getSupportActionBar().setTitle("Home"); //título da tollbar
+
+        AddNewPostButton = (ImageButton) findViewById(R.id.add_new_post_button);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawable_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, drawerLayout, R.string.drawer_open,R.string.drawer_close); //cria toggle
+        drawerLayout.addDrawerListener(actionBarDrawerToggle); //add botao(toggle) no toolbar
+        actionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+        //recyclerview
+        postList = (RecyclerView) findViewById(R.id.all_users_post_list);
+        postList.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        postList.setLayoutManager(linearLayoutManager);
+
+        View navView = navigationView.inflateHeaderView(R.layout.navigation_header);
+        NavProfileImage = (CircleImageView) navView.findViewById(R.id.nav_profile_image);
+        NavProfileUserName = (TextView) navView.findViewById(R.id.nav_user_full_name);
+
+
+        //atualizar foto de perfil e nome de usuário na navbar(puxa do firebase)
+        UsersRef.child(currentUserID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    if(dataSnapshot.hasChild("fullname")) {
+                        String fullname = dataSnapshot.child("fullname").getValue().toString();
+                        NavProfileUserName.setText(fullname);
+>>>>>>> master
                     }
                     else {
                         txtNReqFriends.setText("");
@@ -364,6 +425,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+<<<<<<< HEAD
 
 
 //    public boolean onOptionsItemSelected(MenuItem item)  {
@@ -446,6 +508,8 @@ public class MainActivity extends AppCompatActivity {
 //
 
 
+=======
+>>>>>>> master
     //atualizar o status(online/offline) do user
     public void updateUserStatus(String state){
         String saveCurrentDate, saveCurrentTime;
@@ -472,6 +536,7 @@ public class MainActivity extends AppCompatActivity {
     private void DisplayAllUsersPosts() {
 
         //organizar postagens na linha do tempo
+<<<<<<< HEAD
         Query SortPostsInDecendingOrder = null;
 
         if(!filter){
@@ -482,6 +547,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+=======
+        Query SortPostsInDecendingOrder = PostsRef.orderByChild("counter");
+>>>>>>> master
 
         FirebaseRecyclerAdapter<Posts, PostsViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Posts, PostsViewHolder>
@@ -494,6 +562,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
                         //pegar os dados, exemplo: profilename, data, time, etc...
                         viewHolder.setFullname(model.getFullname());
                         viewHolder.setTime(model.getTime());
@@ -502,6 +571,7 @@ public class MainActivity extends AppCompatActivity {
                         Picasso.with(getApplicationContext()).load(model.getProfileimage()).into(viewHolder.getImage());
                         viewHolder.setPostimage(getApplicationContext(), model.getPostimage());
 
+<<<<<<< HEAD
 
                         viewHolder.getImage().setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -535,6 +605,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+=======
+>>>>>>> master
                         viewHolder.setLikeButtonStatus(PostKey);
 
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
@@ -596,6 +668,7 @@ public class MainActivity extends AppCompatActivity {
         View mView;
 
         ImageButton LikePostButton, CommentPostButton;
+<<<<<<< HEAD
         TextView value;
         TextView state;
       //  TextView city;
@@ -604,6 +677,12 @@ public class MainActivity extends AppCompatActivity {
         String currentUserId;
         DatabaseReference LikesRefe;;
         CircleImageView image;
+=======
+        TextView DisplayNoOfLikes;
+        int countLikes;
+        String currentUserId;
+        DatabaseReference LikesRefe;
+>>>>>>> master
 
         public PostsViewHolder(View itemView){
             super(itemView);
@@ -615,6 +694,7 @@ public class MainActivity extends AppCompatActivity {
 
             LikesRefe = FirebaseDatabase.getInstance().getReference().child("Likes");
             currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+<<<<<<< HEAD
 
             image = (CircleImageView) mView.findViewById(R.id.post_profile_image);
 
@@ -674,7 +754,35 @@ public class MainActivity extends AppCompatActivity {
 
         public CircleImageView getImage() {
             return image;
+=======
+>>>>>>> master
         }
+
+        //status do botao/coração like(cor)
+        public void setLikeButtonStatus(final String PostKey){
+            LikesRefe.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                   if(dataSnapshot.child(PostKey).hasChild(currentUserId)){
+                       countLikes = (int) dataSnapshot.child(PostKey).getChildrenCount();//quantidade de likes dado na postagem
+                       LikePostButton.setImageResource(R.drawable.like);
+                       DisplayNoOfLikes.setText((Integer.toString(countLikes)+(" Likes")));
+                   }else{
+                       countLikes = (int) dataSnapshot.child(PostKey).getChildrenCount();//quantidade de likes dado na postagem
+                       LikePostButton.setImageResource(R.drawable.dislike);
+                       DisplayNoOfLikes.setText(Integer.toString(countLikes)+(" Likes"));
+                   }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
 
         public void setFullname(String fullname){
             TextView username = (TextView) mView.findViewById(R.id.post_user_name);
@@ -837,18 +945,22 @@ public class MainActivity extends AppCompatActivity {
         Intent FindFriendsIntent = new Intent(MainActivity.this, FindFriendsActivity.class);
         startActivity(FindFriendsIntent);
 
+<<<<<<< HEAD
     }
 
     private void SendUserToChatActivity(){
         Intent chatIntent = new Intent(MainActivity.this, ChatsActivity.class);
         startActivity(chatIntent);
 
+=======
+>>>>>>> master
     }
 
     private void SendUserToProfileActivity(){
         Intent ProfileIntent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivity(ProfileIntent);
 
+<<<<<<< HEAD
     }
 
     private void SendUserToFriendsRequestActtivity(){
@@ -889,6 +1001,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return json;
 
+=======
+>>>>>>> master
     }
 
 

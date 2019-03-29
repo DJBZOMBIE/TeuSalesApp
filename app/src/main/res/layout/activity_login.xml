@@ -26,6 +26,10 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/inputs"
         android:drawableLeft="@drawable/email"
+<<<<<<< HEAD
+=======
+        android:ems="10"
+>>>>>>> master
         android:hint="E-Mail..."
         android:inputType="textEmailAddress"
         android:padding="8dp" />
@@ -141,6 +145,10 @@
         android:text="Esqueceu a senha ?"
         android:textAlignment="center"
         android:textColor="@android:color/black"
+<<<<<<< HEAD
         android:textStyle="bold" />
+=======
+        android:textStyle="bold"/>
+>>>>>>> master
 
 </RelativeLayout>

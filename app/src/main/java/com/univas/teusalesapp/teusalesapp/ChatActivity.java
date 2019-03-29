@@ -1,10 +1,15 @@
 package com.univas.teusalesapp.teusalesapp;
 
+<<<<<<< HEAD
 import android.app.NotificationManager;
 import android.content.Context;
 import android.media.RingtoneManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+=======
+import android.content.Context;
+import android.support.annotation.NonNull;
+>>>>>>> master
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,7 +58,10 @@ public class ChatActivity extends AppCompatActivity {
     private String messageReceiverID, messageReceiverName, messageSenderID, saveCurrentDate, saveCurrentTime;
 
     private TextView receiverName, userLastSeen;
+<<<<<<< HEAD
     private String NOTIFICATION_ID;
+=======
+>>>>>>> master
     private CircleImageView receiverProfileImage;
     private DatabaseReference RootRef, UserRef;
     private FirebaseAuth mAuth;
@@ -65,7 +73,10 @@ public class ChatActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         messageSenderID = mAuth.getCurrentUser().getUid();
+<<<<<<< HEAD
         NOTIFICATION_ID = messageSenderID;
+=======
+>>>>>>> master
 
         RootRef = FirebaseDatabase.getInstance().getReference();
         UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -92,6 +103,7 @@ public class ChatActivity extends AppCompatActivity {
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+<<<<<<< HEAD
                         final Messages messages = dataSnapshot.getValue(Messages.class);
                         messagesList.add(messages);
                         messagesAdapter.notifyDataSetChanged();
@@ -132,6 +144,11 @@ public class ChatActivity extends AppCompatActivity {
 //
 //
 //                        }
+=======
+                        Messages messages = dataSnapshot.getValue(Messages.class);
+                        messagesList.add(messages);
+                        messagesAdapter.notifyDataSetChanged();
+>>>>>>> master
                     }
 
                     @Override
@@ -176,6 +193,7 @@ public class ChatActivity extends AppCompatActivity {
             SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss aa"); //hora/tempo padrão
             saveCurrentTime = currentTime.format(calFordTime.getTime());
 
+<<<<<<< HEAD
             String nowt = String.valueOf(System.currentTimeMillis());
 
             //salvar mensagem no bd
@@ -205,6 +223,34 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 }
             });
+=======
+            //salvar mensagem no bd
+            Map messageTextBody = new HashMap();
+                messageTextBody.put("message", messageText);
+                messageTextBody.put("time", saveCurrentTime);
+                messageTextBody.put("date", saveCurrentDate);
+                messageTextBody.put("type", "text");
+                messageTextBody.put("from", messageSenderID);
+
+            //salvar os id's dos users que enviaram/receberam mensagens
+           Map messageBodyDetails = new HashMap();
+               messageBodyDetails.put(message_sender_ref + "/" + message_push_id, messageTextBody);
+               messageBodyDetails.put(message_receiver_ref + "/" + message_push_id, messageTextBody);
+
+           //salva a arvore de mensagens no BD
+           RootRef.updateChildren(messageBodyDetails).addOnCompleteListener(new OnCompleteListener() {
+               @Override
+               public void onComplete(@NonNull Task task) {
+                   if(task.isSuccessful()){
+                       Toast.makeText(ChatActivity.this, "Mensagem enviada com sucesso.", Toast.LENGTH_SHORT).show();
+                       userMessageInput.setText(""); //limpar campo de texto
+                   }else{
+                       String message = task.getException().getMessage();
+                       Toast.makeText(ChatActivity.this, "Erro: " + message, Toast.LENGTH_SHORT).show();
+                   }
+               }
+           });
+>>>>>>> master
         }
     }
 
@@ -232,6 +278,7 @@ public class ChatActivity extends AppCompatActivity {
 
     //mostra o nome, foto e status(online ou visto pela ultima vez(off)) do usuario na barra de titulo do chat
     private void DisplayReceiverInfo() {
+<<<<<<< HEAD
         receiverName.setText(messageReceiverName); //seta o nome
 
         RootRef.child("Users").child(messageReceiverID).addValueEventListener(new ValueEventListener() {
@@ -259,6 +306,35 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+=======
+       receiverName.setText(messageReceiverName); //seta o nome
+
+       RootRef.child("Users").child(messageReceiverID).addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+               if (dataSnapshot.exists()){
+                   final String profileImage = dataSnapshot.child("profileimage").getValue().toString();
+                   final String type = dataSnapshot.child("userState").child("type").getValue().toString();
+                   final String LastDate = dataSnapshot.child("userState").child("date").getValue().toString();
+                   final String LastTime = dataSnapshot.child("userState").child("time").getValue().toString();
+
+                   if(type.equals("online")){
+                       //se user ta online
+                       userLastSeen.setText("online");
+                   }else{
+                       userLastSeen.setText("visto pela última vez: " + LastTime + " " + LastDate);
+                   }
+
+                   Picasso.with(ChatActivity.this).load(profileImage).placeholder(R.drawable.profile).into(receiverProfileImage); //seta a foto
+               }
+           }
+
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+
+           }
+       });
+>>>>>>> master
     }
 
     private void IntializeFields() {
@@ -288,4 +364,8 @@ public class ChatActivity extends AppCompatActivity {
         userMessagesList.setLayoutManager(linearLayoutManager);
         userMessagesList.setAdapter(messagesAdapter);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master

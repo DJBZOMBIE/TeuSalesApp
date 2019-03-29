@@ -1,22 +1,35 @@
 package com.univas.teusalesapp.teusalesapp;
 
 public class Comments {
+<<<<<<< HEAD
     public String comment, date, time, username,uid;
+=======
+    public String comment, date, time, username;
+>>>>>>> master
 
     public Comments(){
 
     }
 
+<<<<<<< HEAD
     public Comments(String comment, String date, String time,String uid, String username) {
+=======
+    public Comments(String comment, String date, String time, String username) {
+>>>>>>> master
         this.comment = comment;
         this.date = date;
         this.time = time;
         this.username = username;
+<<<<<<< HEAD
         this.uid  = uid;
     }
 
     public String getUserId(){return uid; }
 
+=======
+    }
+
+>>>>>>> master
     public String getComment() {
         return comment;
     }
