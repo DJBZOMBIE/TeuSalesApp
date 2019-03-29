@@ -1,15 +1,12 @@
 package com.univas.teusalesapp.teusalesapp;
 
-<<<<<<< HEAD
 import android.app.NotificationManager;
 import android.content.Context;
 import android.media.RingtoneManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-=======
 import android.content.Context;
 import android.support.annotation.NonNull;
->>>>>>> master
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -58,10 +55,7 @@ public class ChatActivity extends AppCompatActivity {
     private String messageReceiverID, messageReceiverName, messageSenderID, saveCurrentDate, saveCurrentTime;
 
     private TextView receiverName, userLastSeen;
-<<<<<<< HEAD
     private String NOTIFICATION_ID;
-=======
->>>>>>> master
     private CircleImageView receiverProfileImage;
     private DatabaseReference RootRef, UserRef;
     private FirebaseAuth mAuth;
@@ -73,10 +67,7 @@ public class ChatActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         messageSenderID = mAuth.getCurrentUser().getUid();
-<<<<<<< HEAD
         NOTIFICATION_ID = messageSenderID;
-=======
->>>>>>> master
 
         RootRef = FirebaseDatabase.getInstance().getReference();
         UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -103,7 +94,6 @@ public class ChatActivity extends AppCompatActivity {
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-<<<<<<< HEAD
                         final Messages messages = dataSnapshot.getValue(Messages.class);
                         messagesList.add(messages);
                         messagesAdapter.notifyDataSetChanged();
@@ -144,11 +134,9 @@ public class ChatActivity extends AppCompatActivity {
 //
 //
 //                        }
-=======
                         Messages messages = dataSnapshot.getValue(Messages.class);
                         messagesList.add(messages);
                         messagesAdapter.notifyDataSetChanged();
->>>>>>> master
                     }
 
                     @Override
@@ -193,7 +181,6 @@ public class ChatActivity extends AppCompatActivity {
             SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss aa"); //hora/tempo padrão
             saveCurrentTime = currentTime.format(calFordTime.getTime());
 
-<<<<<<< HEAD
             String nowt = String.valueOf(System.currentTimeMillis());
 
             //salvar mensagem no bd
@@ -223,7 +210,6 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 }
             });
-=======
             //salvar mensagem no bd
             Map messageTextBody = new HashMap();
                 messageTextBody.put("message", messageText);
@@ -250,7 +236,6 @@ public class ChatActivity extends AppCompatActivity {
                    }
                }
            });
->>>>>>> master
         }
     }
 
@@ -278,7 +263,6 @@ public class ChatActivity extends AppCompatActivity {
 
     //mostra o nome, foto e status(online ou visto pela ultima vez(off)) do usuario na barra de titulo do chat
     private void DisplayReceiverInfo() {
-<<<<<<< HEAD
         receiverName.setText(messageReceiverName); //seta o nome
 
         RootRef.child("Users").child(messageReceiverID).addValueEventListener(new ValueEventListener() {
@@ -306,7 +290,6 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-=======
        receiverName.setText(messageReceiverName); //seta o nome
 
        RootRef.child("Users").child(messageReceiverID).addValueEventListener(new ValueEventListener() {
@@ -334,7 +317,6 @@ public class ChatActivity extends AppCompatActivity {
 
            }
        });
->>>>>>> master
     }
 
     private void IntializeFields() {
@@ -364,8 +346,5 @@ public class ChatActivity extends AppCompatActivity {
         userMessagesList.setLayoutManager(linearLayoutManager);
         userMessagesList.setAdapter(messagesAdapter);
     }
-<<<<<<< HEAD
 }
-=======
 }
->>>>>>> master
